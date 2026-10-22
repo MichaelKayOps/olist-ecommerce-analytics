@@ -1,6 +1,8 @@
 # Olist E-Commerce Analytics
 ### Sales Performance, Delivery Reliability & Customer Retention
 
+**Outcome:** Identified a 22.4% revenue-growth opportunity alongside a 3.0% overall repeat-purchase rate, highlighting a priority gap between customer acquisition and retention.
+
 An end-to-end data analytics project exploring sales performance, delivery operations, customer satisfaction, and repeat purchasing in the Olist Brazilian e-commerce marketplace.
 
 **Tools:** SQL Server · Power BI · DAX · Excel  
