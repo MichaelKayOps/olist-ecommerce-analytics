@@ -1,6 +1,6 @@
 /*
 
-TASK 01.Exploring & Understanding The Data
+TASK 01. Exploring & Understanding The Data
 
 Things I will consider: 
     Some order_id records may 
