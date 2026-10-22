@@ -195,6 +195,11 @@ Explores review scores, positive review share, and repeat purchasing.
 ---
 
 ## 5. Technical Approach
+## 5. Technical Approach
+
+The project followed an end-to-end workflow: data exploration, table joins, cleaning and transformation, enrichment, final-table preparation, data-quality validation, Power BI modelling, DAX development, dashboard design, and SQL-to-Power BI reconciliation.
+
+For the full technical walkthrough, including SQL query examples, validation evidence, data-model decisions, and dashboard development notes, see [`Documentation/technical_process.md`](Documentation/technical_process.md).
 
 ### Data collection and understanding
 
