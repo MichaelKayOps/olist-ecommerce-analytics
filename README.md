@@ -107,7 +107,7 @@ The overall on-time delivery rate was 91.9%, while 8.1% of orders were delivered
 | São Paulo (SP) | 40,501 | 4.22 | 5.9% | Approximately 3.2% |
 | Acre (AC) | 80 | 4.06 | Not reported here | 5.2% |
 | Maranhão (MA) | 717 | 3.78 | 19.7% | Not reported here |
-| Overall | — | 4.10 | 8.1% | 3.0% |
+| Overall | 96,478 | 4.10 | 8.1% | 3.0% |
 
 Maranhão’s late-delivery rate was more than twice the overall rate, alongside an average rating of 3.78/5. This makes the state a priority for further delivery investigation.
 
