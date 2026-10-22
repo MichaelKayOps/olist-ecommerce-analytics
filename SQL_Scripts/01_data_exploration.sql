@@ -1,17 +1,17 @@
 /*
 
-TASK 01. Exploring & Understanding The Data
+TASK 01. Exploring and Understanding the Data
 
-Things I will consider: 
-    Some order_id records may 
+Things I will consider:
+    Some order_id records may:
            1. contain multiple items;
-           2. not have any review_score, and will uncover any pattern behind it - Unsatisfied customer or what? analyis would tell us;
-           3. have more than one review_score driven by each distinct items contained in it;
-           4. be fulfilled by more than one seller when the order consists of distinctitems sold by different vendors.
+           2. not have a review_score, and I will uncover any patterns behind this—unsatisfied customers, or something else? The analysis would tell us;
+           3. have more than one review_score, driven by each distinct item contained in the order;
+           4. be fulfilled by more than one seller when the order consists of distinct items sold by different vendors.
 
-What records do I consider Valid or Invalid?
-           1. VALID: each unique order_id is tied to a customer_unique_id with their order_status field not NULL (empty).
-           2. INVALID: Review_id and review_score with NULL (empty) values in their respective customer_id and order_id data field.
+What records do I consider valid or invalid?
+           1. VALID: Each unique order_id is tied to a customer_unique_id, and its order_status field is not NULL (empty).
+           2. INVALID: Review_id and review_score have NULL (empty) values in their respective customer_id and order_id data fields.
  */
 
  SELECT DISTINCT 
