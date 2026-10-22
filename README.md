@@ -4,6 +4,8 @@ An end-to-end data analytics project exploring sales performance, delivery opera
 
 **Key result:** Revenue grew 22.4% in 2018, but only 3.0% of customers with at least one delivered order made another delivered purchase, indicating an opportunity to strengthen retention and increase customer lifetime value.
 
+**Technical walkthrough:** See [`Documentation/technical_process.md`](Documentation/technical_process.md) for the full step-by-step process, SQL validation evidence, data-modelling decisions, and dashboard development notes.
+
 **Tools:** SQL Server · Power BI · DAX · Excel  
 **Project focus:** Business and Operations Analytics  
 **Dataset:** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
