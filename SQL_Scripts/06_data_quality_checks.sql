@@ -83,7 +83,7 @@ SELECT
 
 
 /*
-   #- Repeat Customer Count check: 
+    - Repeat Customer Count check: 
        Result confirms only 2,801 out of 93,358 customers with completed orders placed more than one order from 2016 to 2018.
  */
 
