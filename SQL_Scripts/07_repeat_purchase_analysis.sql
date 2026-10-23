@@ -15,6 +15,7 @@ observation window, highlighting a potential customer-retention challenge.
 */
 	
 USE [Olist_Ecommerce_data];
+DROP TABLE IF EXISTS #CustomerOrders;
 
 -- Step 1: Create one row per customer and order.
 -- Only delivered orders count as completed purchases.
@@ -95,7 +96,7 @@ SELECT
     GROUP BY ec.customer_unique_id
 )
 
--- Step 5: Report all three repeat rates.
+-- Step 5: Report all three repeat-purchase rates.
 SELECT
     COUNT(*) AS eligible_customers,
     SUM(repeat_within_3_months)
@@ -124,6 +125,8 @@ SELECT
     ) AS repeat_rate_12_months_pct
 FROM RepeatStatus;
 
+-- Clean up the temporary table.
+DROP TABLE IF EXISTS #CustomerOrders;
 
 /*
 ### Key Investigation:
