@@ -1,11 +1,11 @@
 /*
-  TASK 06: DATA QUALITY CHECKS
+ ## TASK 06: DATA QUALITY CHECKS
 
-    1- Quality Test
-         #- Invalid Date Relationships: Checked for orders where the customer delivery
+   ### 1- Quality Test
+         - Invalid Date Relationships: Checked for orders where the customer delivery
           date occurred before the order was purchaed, which would be an invalid record.(RESULT: PASS)
 
-         #- Checked that Every delivered order has a customer_id. Orders that don't would be 
+         - Checked that Every delivered order has a customer_id. Orders that don't would be 
           flagged an Invalid record.(RESULT: PASS - Non found without a customer_id) 
 */	
 
@@ -17,7 +17,7 @@
        AND   customer_unique_id IS NULL)
 
 /*
-  	     #- NULL Values Check: I expect NULL values only in shipping/delivery date fields where the
+  	     - NULL Values Check: I expect NULL values only in shipping/delivery date fields where the
           corresponding event did not occur; all other key analytical fields should not contain NULL values.
           (RESULT: PASS - No NULL values found in the key analytical columns)    
 */
@@ -49,16 +49,16 @@ FROM [dbo].[vw_olist_analysis]
 
 
 /*	 
-	    2- Quantity Test
-            #- Total number of VALID records:
+	   ### 2- Quantity Test
+             - Total number of VALID records:
                  Expected total = 106,354
                  Result: PASS - 106,354 COUNTED
      
-            #- Number of unique orders: 
+             - Number of unique orders: 
                  Expected total = 98,832
                  Result: PASS - 98,832 COUNTED
 
-            #- Total Unique customers between 2016 to 2018
+             - Total Unique customers between 2016 to 2018
                  Expected total = 95,526
                  Result: PASS - 95,526 COUNTED
 */
