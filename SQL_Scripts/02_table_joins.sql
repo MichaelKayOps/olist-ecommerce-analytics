@@ -1,18 +1,25 @@
  /*
- TASK 02: Table_Joins
-     Actions:
-       - Identified and Joined tables required for each analysis.
-       - Selected the relevant columns neded for Sales, Delivery, and Customer Satisfaction Informations.
+ 
+## Task 02: Table Joins
 
-     Key tables:
-        - Orders (Joined)
-        - Order items (Joined)
-        - Customers (Joined)
-        - Products (Joined)
-        - Category Tranlation (Joined)
-        - Sellers (Joined)
-        - Payment (Joined)
-        - Reviews (Joined)
+### Actions
+- Identified and joined the source tables required for the planned analyses.
+- Selected relevant columns to support sales, delivery performance, and customer satisfaction analysis.
+- Considered table relationships and differences in data grain to reduce duplication and preserve the accuracy of analytical measures.
+
+### Tables Joined
+- orders_dataset
+- order_items_dataset
+- customers_dataset
+- products_dataset
+- product_category_translation
+- sellers_dataset
+- order_payments_dataset
+- order_reviews_dataset
+
+### Outcome
+Combined relevant information from the source tables into a structured dataset for subsequent data cleaning, transformation, validation, and analysis.
+
 */ 
 
 USE Olist_Ecommerce_data
@@ -33,7 +40,7 @@ SELECT distinct OD.order_id
     ,OD.order_status
     ,S.seller_id
     ,S.seller_city
-    ,S.seller_state
+    , S.seller_state
   FROM 	 
        [dbo].[orders_dataset] OD   
 LEFT JOIN 
