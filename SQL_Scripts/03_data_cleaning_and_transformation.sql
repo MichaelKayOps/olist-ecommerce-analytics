@@ -1,10 +1,14 @@
 /*	
 
-TASK 03: DATA CLEANING & TRANSFORMATION
-    Actions:
-    - Removed unwanted symbols and inconsistencies from the product_category column.
-    - Converted relevant datetime columns to DATE format, since the analysis focuses on dates
-    rather than specific timestamps.
+## Task 03: Data Cleaning and Transformation
+
+### Actions
+- Cleaned the `product_category_name` field by removing unwanted symbols and addressing inconsistencies.
+- Converted relevant datetime columns to the `DATE` data type because the analysis focuses on calendar dates rather than time-of-day details.
+- Rounded `freight_value` and `payment_value` to address inconsistencies in currency precision and standardise their presentation.
+
+### Outcome
+The data was standardised to support consistent date-based analysis, product-category reporting and financial calculations.
 
 */
 
