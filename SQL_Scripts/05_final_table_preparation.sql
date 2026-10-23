@@ -1,6 +1,11 @@
 /*
-TASK 05: DATA TABLE PREPARATION
-  - Created view table for the final data testing and analysis.
+## Task 05: Final Data Table Preparation
+
+### Action
+- Created a view containing the prepared data for final quality checks and analysis.
+
+### Outcome
+- Established a consistent data source for the subsequent analysis and Power BI visualisation.
 */
 
 CREATE VIEW vw_olist_analysis AS
@@ -79,8 +84,8 @@ LEFT JOIN
                     ON P.product_category_name = CN.Portugues
 WHERE OD.order_status != 'unavailable' 
  
- /*    
-     NOTE: 611 rows of record were eliminated from the table containing orders with 'unavailable'
-                 order status. These orders lacked key information needed for the analysis.
-                 This ensures the analysis is based on more complete and actionable orders.
- */
+/*
+NOTE: Excluded 611 orders with an 'unavailable' status because they lacked key information required for the analysis.
+
+This decision was made to retain records suitable for the intended analysis.
+*/
