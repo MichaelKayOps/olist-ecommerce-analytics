@@ -2,10 +2,10 @@
 ## Task 05: Final Data Table Preparation
 
 ### Action
-- Created a view containing the prepared data for final quality checks and analysis.
+ - Created a view containing the prepared data for final quality checks and analysis.
 
 ### Outcome
-- Established a consistent data source for the subsequent analysis and Power BI visualisation.
+ - Established a consistent data source for the subsequent analysis and Power BI visualisation.
 */
 
 CREATE VIEW vw_olist_analysis AS
@@ -85,7 +85,6 @@ LEFT JOIN
 WHERE OD.order_status != 'unavailable' 
  
 /*
-NOTE: Excluded 611 orders with an 'unavailable' status because they lacked key information required for the analysis.
-
-This decision was made to retain records suitable for the intended analysis.
+NOTE: I excluded 611 records with an 'unavailable' order_status from the final view table because they lacked key values to be valid records
+using the filter command " WHERE OD.order_status != 'unavailable' " at the bottom of the create view comand.
 */
