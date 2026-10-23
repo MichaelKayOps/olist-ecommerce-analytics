@@ -1,17 +1,18 @@
 /*
+## Task 01: Exploring and Understanding the Data
 
-TASK 01. Exploring and Understanding the Data
+1. **Multiple items per order:** A single `order_id` may contain several items, each identified by an `order_item_id`. This affects the level of detail in the data and how order-level measures should be calculated.
 
-Things I will consider:
-    Some order_id records may:
-           1. contain multiple items;
-           2. not have a review_score, and I will uncover any patterns behind this—unsatisfied customers, or something else? The analysis would tell us;
-           3. have more than one review_score, driven by each distinct item contained in the order;
-           4. be fulfilled by more than one seller when the order consists of distinct items sold by different vendors.
+2. **Missing customer reviews:** Some orders have no recorded `review_id` or `review_score`. These records were retained for relevant analyses because the absence of a review does not establish customer dissatisfaction. Further investigation would examine whether missing reviews show patterns associated with delivery performance, order status or other relevant factors.
 
-What records do I consider valid or invalid?
-           1. VALID: Each unique order_id is tied to a customer_unique_id, and its order_status field is not NULL (empty).
-           2. INVALID: Review_id and review_score have NULL (empty) values in their respective customer_id and order_id data fields.
+### Preliminary Data Validity Checks
+
+- Confirm that each `order_id` is associated with a `customer_unique_id` and has a recorded `order_status`.
+- Identify review records that contain a `review_id` and `review_score` but have NULL values for both `customer_unique_id` and `order_id`. These unlinked records were excluded from analyses requiring a valid customer or order relationship.
+- Investigate missing identifiers and potential duplication introduced by table joins.
+
+**Note:** Orders without a recorded review were retained for relevant analyses. The absence of a review does not, by itself, indicate customer dissatisfaction.
+
  */
 
  SELECT DISTINCT 
