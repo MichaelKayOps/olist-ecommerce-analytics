@@ -14,7 +14,6 @@ purchasing was uncommon, even among customers with a full 12-month
 observation window, highlighting a potential customer-retention challenge.
 */
 	
-USE [Olist_Ecommerce_data];
 DROP TABLE IF EXISTS #CustomerOrders;
 
 -- Step 1: Create one row per customer and order.
@@ -25,7 +24,7 @@ SELECT DISTINCT
     order_id,
     order_date
     INTO #CustomerOrders
-  FROM dbo.vw_olist_analysis
+  FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
 WHERE customer_unique_id IS NOT NULL
      AND order_id IS NOT NULL
      AND order_date IS NOT NULL
