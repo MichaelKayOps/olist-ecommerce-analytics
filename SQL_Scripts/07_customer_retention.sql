@@ -1,6 +1,6 @@
 /*
 
-#  REPEAT PURCHASES CALCULATIONS WITHIN 12 MONTHS
+## REPEAT PURCHASES CALCULATIONS WITHIN 12 MONTHS
 
     Out of every 100 eligible customers, about 3 made another purchase within 12 months of their first order.
     That is a low repeat-purchase rate in this dataset. It suggests that repeat purchasing was uncommon, 
@@ -16,17 +16,17 @@ SELECT DISTINCT
     customer_unique_id,
     order_id,
     order_date
-INTO #CustomerOrders
-FROM dbo.vw_olist_analysis
+    INTO #CustomerOrders
+  FROM dbo.vw_olist_analysis
 WHERE customer_unique_id IS NOT NULL
-  AND order_id IS NOT NULL
-  AND order_date IS NOT NULL
-  AND order_status = 'delivered'; 
+     AND order_id IS NOT NULL
+     AND order_date IS NOT NULL
+     AND order_status = 'delivered'; 
 
 -- Step 2: Identify each customer's first delivered order.
 
-;WITH CustomerFirstOrder AS (
-    SELECT
+ ;WITH CustomerFirstOrder AS (
+ SELECT
         customer_unique_id,
         MIN(order_date) AS first_order_date
     FROM #CustomerOrders
@@ -37,10 +37,10 @@ WHERE customer_unique_id IS NOT NULL
 -- observation window after their first delivered order.
 
   EligibleCustomers AS (
-    SELECT
+SELECT
         customer_unique_id,
         first_order_date
-    FROM CustomerFirstOrder
+     FROM CustomerFirstOrder
     WHERE first_order_date <= DATEADD(
         MONTH,
         -12,
@@ -52,7 +52,7 @@ WHERE customer_unique_id IS NOT NULL
 -- completed another delivered order within each window.
 
   RepeatStatus AS (
-    SELECT
+SELECT
         ec.customer_unique_id,
   MAX(CASE
             WHEN co.order_date > ec.first_order_date
@@ -99,7 +99,6 @@ SELECT
         / NULLIF(COUNT(*), 0)
         AS DECIMAL(5,2)
     ) AS repeat_rate_3_months_pct,
-
     SUM(repeat_within_6_months)
         AS repeat_customers_6_months,
 
@@ -108,7 +107,6 @@ SELECT
         / NULLIF(COUNT(*), 0)
         AS DECIMAL(5,2)
     ) AS repeat_rate_6_months_pct,
-
     SUM(repeat_within_12_months)
         AS repeat_customers_12_months,
 
@@ -117,7 +115,6 @@ SELECT
         / NULLIF(COUNT(*), 0)
         AS DECIMAL(5,2)
     ) AS repeat_rate_12_months_pct
-
 FROM RepeatStatus;
 
 
@@ -138,18 +135,18 @@ DROP TABLE IF EXISTS #DeliveredOrders;
 
 -- 1. Build one record per delivered order.
 -- MAX(review_score) is safe only if each order has one consistent score.
-SELECT
+ SELECT
     customer_unique_id,
     order_id,
     MIN(order_date) AS order_date,
     MAX(review_score) AS review_score
-INTO #DeliveredOrders
-FROM dbo.vw_olist_analysis
-WHERE customer_unique_id IS NOT NULL
-  AND order_id IS NOT NULL
-  AND order_date IS NOT NULL
-  AND order_status = 'delivered'
-GROUP BY
+      INTO #DeliveredOrders
+    FROM dbo.vw_olist_analysis
+ WHERE customer_unique_id IS NOT NULL
+    AND order_id IS NOT NULL
+    AND order_date IS NOT NULL
+    AND order_status = 'delivered'
+ GROUP BY
     customer_unique_id,
     order_id;
 
