@@ -1,11 +1,18 @@
 /*
 
-## REPEAT PURCHASES CALCULATIONS WITHIN 12 MONTHS
+## REPEAT-PURCHASE RATE ANALYSIS
+ Evaluates customer retention by measuring the percentage of customers who
+placed another delivered order within 3, 6, and 12 months of their first
+delivered purchase. Only customers with a full 12-month observation window
+are included. The analysis also examines whether the rating of a customer's
+first delivered order is associated with repeat purchasing within 12 months.
 
-    Out of every 100 eligible customers, about 3 made another purchase within 12 months of their first order.
-    That is a low repeat-purchase rate in this dataset. It suggests that repeat purchasing was uncommon, 
-    even among customers who had sufficient time to return.
-*/	
+### Key Findings:
+Only 3.33% of eligible customers made another delivered purchase within
+12 months of their first delivered order. This indicates that repeat
+purchasing was uncommon, even among customers with a full 12-month
+observation window, highlighting a potential customer-retention challenge.
+*/
 	
 USE [Olist_Ecommerce_data];
 
@@ -88,7 +95,7 @@ SELECT
     GROUP BY ec.customer_unique_id
 )
 
--- Step 5: Report all three retention rates.
+-- Step 5: Report all three repeat rates.
 SELECT
     COUNT(*) AS eligible_customers,
     SUM(repeat_within_3_months)
@@ -140,7 +147,7 @@ USE [Olist_Ecommerce_data];
 DROP TABLE IF EXISTS #DeliveredOrders;
 
 -- 1. Build one record per delivered order.
--- MAX(review_score) is safe only if each order has one consistent score.
+-- MAX(review_score), as each order has one consistent score.
  SELECT
     customer_unique_id,
     order_id,
