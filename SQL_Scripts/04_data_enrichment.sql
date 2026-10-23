@@ -1,12 +1,30 @@
 /*	
-	TASK 04: DATA ENRICHMENT
+	
+## Task 04: Data Enrichment
 
-  Actions:
-    1- Performance Analysis: Added a Delivery Status column to provide more insight 
-     into delivery performance by classifying orders as Early, On Time, or Late, while separately
-     identifying orders that were not delivered.
+### Actions
 
-    2. Calculated and included Delivery delay days column to provide insight into deviations from the estimated delivery date.
+**1. Added a Delivery Status column**
+
+Created a derived `Delivery Status` column to classify orders according to their recorded delivery outcome.
+
+- **On Time:** The order was delivered on or before the estimated delivery date.
+- **Late:** The order was delivered after the estimated delivery date.
+- **Not Delivered:** The `order_delivered_customer_date` field is NULL, indicating that no customer-delivery date is recorded in the dataset.
+
+Orders without a recorded delivery date were classified separately because their delivery timeliness could not be assessed. This includes orders that were still processing, had been shipped but had no recorded customer-delivery date, or were cancelled.
+
+**2. Added a Delivery Delay Days column**
+
+Created a derived `Delivery Delay Days` column to measure lateness relative to the estimated delivery date.
+
+- **Zero days:** The order was delivered on or before the estimated delivery date.
+- **Positive values:** The number of days the order arrived after the estimated delivery date.
+- **No negative values:** Early deliveries were assigned zero rather than recorded as negative delays.
+
+### Purpose
+
+These derived fields distinguish orders with confirmed delivery dates from those without recorded customer delivery, quantify late deliveries, and support comparisons of delivery performance across periods and customer locations.
 */
 
 USE Olist_Ecommerce_data
@@ -22,7 +40,7 @@ CASE
                 THEN 'Not Delivered'
      WHEN    
             OD.order_delivered_customer_date < OD.order_estimated_delivery_date 
-                THEN 'Early'
+                THEN 'On Time'
      WHEN  
             OD.order_delivered_customer_date = OD.order_estimated_delivery_date
                 THEN 'On Time'
