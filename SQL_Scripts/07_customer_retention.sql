@@ -119,16 +119,22 @@ FROM RepeatStatus;
 
 
 /*
- Key Investigation:
-  #- Does high score rating from customers's first delivered order correspond to more repeat purchase rate?
+### Key Investigation:
+   - Does the rating given for a customer's first delivered order
+relate to repeat purchasing within 12 months?
 
- Findings:
-    Customers giving higher ratings on their first delivered order showed slightly higher 12-month repeat-purchase rates. However, 
-    the difference between the lowest and highest rating groups was only 0.55 percentage points. Even among five-star customers, 
-    only 3.49% completed another delivered purchase within the observation window. 
-    This suggests that satisfaction alone may not explain repeat purchasing, although purchasing frequency and other factors have not yet been investigated.
+### Finding:
+Customers who gave higher ratings showed slightly higher
+12-month repeat-purchase rates. The difference between the
+lowest and highest rating groups was 0.55 percentage points.
+Even among customers who gave five stars, only 3.49% made
+another delivered purchase within the observation window.
+
+These results show only a small difference in repeat-purchase
+rates across rating groups. They do not establish that customer
+satisfaction has no effect on repeat purchasing, and other
+possible influences were not fully investigated.
 */
-
 
 USE [Olist_Ecommerce_data];
 DROP TABLE IF EXISTS #DeliveredOrders;
