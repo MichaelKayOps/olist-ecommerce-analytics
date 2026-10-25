@@ -84,47 +84,31 @@ Because Olist is not a subscription platform, customers who did not purchase aga
 
 **Recommended next step:** Segment first-time customers by product category, order value, delivery outcome, and review score. Test targeted re-engagement campaigns against a control group and measure incremental repeat purchases, average order value, and customer lifetime value.
 
-### Finding 2: São Paulo is Olist’s core revenue market
+### Finding 2: São Paulo is Olist’s core revenue market and a key re-engagement opportunity
 
-São Paulo (SP) contributed 37.42% of the R$15.28 million in analysed revenue, approximately R$5.72 million.
+São Paulo contributed 37.42% of the R$15.28 million in analysed revenue, approximately R$5.72 million. It also recorded 40,501 delivered orders, approximately 40,029 unique customers, 1,848 sellers, a 4.22/5 average review score, and a 5.9% late-delivery rate.
 
-The state also recorded:
+Despite relatively strong customer ratings and delivery performance, São Paulo’s repeat-purchase rate was approximately 3.2%. This suggests that a positive first purchase experience alone may not be enough to encourage another purchase.
 
-- 40,501 delivered orders.
-- Approximately 40,029 unique customers.
-- 1,848 sellers out of 3,093 across the 27 states in the analysis.
-- An average review score of 4.22/5.
-- A late-delivery rate of 5.9%.
-- A repeat-purchase rate of approximately 3.2%.
+**Business implication:** São Paulo offers the largest immediate opportunity to test customer re-engagement initiatives. Olist could test relevant product recommendations, cross-sell and upsell offers, post-purchase communication, and early loyalty incentives, then measure their impact on repeat purchases and customer lifetime value.
 
-São Paulo’s large population, commercial activity, and customer base provide context for its market size. It is Olist’s core revenue market and should remain a priority for performance monitoring and customer-retention efforts.
+### Finding 3: Delivery performance is strong overall but varies by state
 
-**Business implication:** Strong sales and relatively reliable delivery do not automatically translate into frequent repeat purchases. Olist could investigate product selection, pricing, customer needs, and the experience between purchases.
+The overall on-time delivery rate was 91.9%, while 8.1% of delivered orders arrived late. However, state-level results reveal important differences.
 
-### Finding 3: Delivery performance differs by state
+Maranhão recorded a 19.7% late-delivery rate, more than twice the overall rate, alongside an average review score of 3.78/5. This makes it a priority for further delivery investigation.
 
-The overall on-time delivery rate was 91.9%, while 8.1% of orders were delivered late. State-level results reveal differences that the national average can conceal.
+São Paulo recorded a 5.9% late-delivery rate and a 4.22/5 average review score, but a repeat-purchase rate of approximately 3.2%. This suggests that strong delivery performance and customer ratings alone may not be enough to drive frequent repeat purchasing.
 
-| State | Delivered orders | Average rating | Late-delivery rate | Repeat-purchase rate |
-|---|---:|---:|---:|---:|
-| São Paulo (SP) | 40,501 | 4.22 | 5.9% | Approximately 3.2% |
-| Acre (AC) | 80 | 4.06 | Not reported here | 5.2% |
-| Maranhão (MA) | 717 | 3.78 | 19.7% | Not reported here |
-| Overall | 96,478 | 4.10 | 8.1% | 3.0% |
+**Business implication:** Delivery performance should be monitored at state level. Maranhão should be investigated first, focusing on late orders by seller, carrier, destination, and dispatch timing.
 
-Maranhão’s late-delivery rate was more than twice the overall rate, alongside an average rating of 3.78/5. This makes the state a priority for further delivery investigation.
+**Recommended next step:** Identify whether Maranhão’s late deliveries are concentrated among particular sellers, routes, or order types. Test operational improvements and monitor changes in late-delivery rate and customer ratings.
 
-Acre recorded a 5.2% repeat-purchase rate, but its 80 delivered orders provide a limited basis for comparison. São Paulo combined relatively strong delivery performance and customer ratings with a repeat-purchase rate of approximately 3.2%.
+### Finding 4: Seller coverage is uneven across Brazil
 
-**Business implication:** Investigate delivery issues by seller, carrier, destination, and dispatch timing in regions with elevated late-delivery rates. Analyse retention separately rather than assuming delivery performance alone explains whether customers return.
+São Paulo accounted for 1,848 of the 3,093 sellers in the analysis, approximately 59.7%. Sellers represented 23 states, while customers were located across 27 states, meaning four customer states had no sellers based in them.
 
-### Finding 4: Seller activity is geographically concentrated
-
-São Paulo accounted for 1,848 of the 3,093 sellers included in the state analysis — approximately 59.7% — and contributed 37.42% of analysed revenue.
-
-This concentration coincided with the state’s leading sales contribution. However, the analysis does not establish that seller concentration caused the revenue advantage; customer demand, population, product availability, and other factors may also contribute.
-
-**Business implication:** Examine seller coverage and product availability across states to identify potential gaps and understand how geographic concentration relates to marketplace performance.
+**Business implication:** States without local sellers may depend on sellers based elsewhere, potentially affecting delivery distance, freight cost, and product availability. This highlights a potential regional seller-coverage opportunity.
 
 ### Finding 5: Revenue declined after May 2018
 
