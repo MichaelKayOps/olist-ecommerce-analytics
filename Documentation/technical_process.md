@@ -98,9 +98,9 @@ I identified the information needed for the three main areas of analysis.
 
 ### Key analytical decisions
 
-- I used `customer_unique_id` for customer-level retention analysis.
+- I used `customer_unique_id` for customer-level repeat-purchase analysis.
 - I used `order_id` to prevent orders from being counted more than once.
-- I treated delivered orders as completed purchases for revenue and retention analysis.
+- I treated delivered orders as completed purchases for revenue and repeat-purchase analysis.
 - I focused on calendar dates rather than timestamps.
 
 ## 4. Join the source tables
@@ -346,14 +346,13 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
 **Note:**  
 The 611 `unavailable` records were excluded in the final view, so they are not included in these counts. A matching count confirms that the final view returned the expected volume; it does not by itself prove that every underlying source value is correct.
 
-## 9. Customer-retention analysis
-
+## 9. Repeat-purchase analysis
 I measured repeat purchasing using delivered orders and `customer_unique_id`.
 
 ### Overall repeat-purchase rate
 
 **Definition:**  
-Customers with more than one delivered order divided by customers with at least one delivered order.
+The share of customers with at least one delivered order who made more than one delivered order within the observed period.
 
 ```sql
 SELECT
@@ -380,7 +379,7 @@ FROM
 ### 12-month cohort repeat-purchase rate
 
 **Definition:**  
-Eligible customers who made another delivered purchase within 12 months of their first delivered order, divided by eligible customers with a full 12-month observation window.
+The share of eligible customers who made another delivered purchase within 12 months of their first delivered order. Only customers with a full 12-month observation window were included.
 
 **Result:**  
 711 of 21,361 eligible customers made another delivered purchase within 12 months.
@@ -396,11 +395,11 @@ Eligible customers who made another delivered purchase within 12 months of their
 ![Customer retention result](../Images/sql/08_customer_retention_result.png)
 
 **Note:**  
-These are two different measures. The overall rate includes all customers with at least one delivered order. The cohort rate includes only customers whose first delivered order occurred early enough to allow a full 12-month observation window.
+These are two different measures. The overall rate includes all customers with at least one delivered order. The cohort rate includes only customers whose first delivered order occurred early enough to allow a full 12-month observation window. They do not measure churn. Because Olist is not a subscription platform, there is no cancellation event that proves a customer has left.
 
 ## 10. Review score and repeat purchasing
 
-I examined whether the review score on a customer’s first delivered order was associated with repeat purchasing.
+I examined whether the review score on a customer’s first delivered order was associated with repeat purchasing within 12 months.
 
 ### Approach
 
@@ -417,7 +416,7 @@ Even among five-star customers, only 3.49% made another delivered purchase withi
 
 ### Interpretation
 
-This suggests that satisfaction alone may not explain repeat purchasing. The result does not prove that satisfaction has no effect; other factors, such as product category, order value, delivery experience, and purchase frequency, were not fully investigated.
+This suggests that satisfaction alone may not be the main driver of repeat purchasing. It does not prove that satisfaction has no effect. Other factors—such as product category, order value, delivery experience, purchase frequency, and customer needs—may also influence whether customers return.
 
 ![Review and retention result](../Images/sql/09_review_retention_result.png)
 
@@ -425,7 +424,7 @@ This suggests that satisfaction alone may not explain repeat purchasing. The res
 
 | Decision | Reason |
 |---|---|
-| Used `customer_unique_id` for retention | It identifies the same customer across multiple customer records |
+| Used `customer_unique_id` for repeat purchases | It identifies the same customer across multiple customer records |
 | Used `order_id` for order-level metrics | Prevents multi-item orders from being counted more than once |
 | Calculated revenue at order grain | Prevents repeated payment values from inflating revenue |
 | Used delivered orders for revenue and retention | Revenue and repeat purchasing are based on completed purchases |
@@ -434,3 +433,21 @@ This suggests that satisfaction alone may not explain repeat purchasing. The res
 | Created a SQL view | Provided one consistent source for validation, analysis, and Power BI |
 | Excluded unavailable orders | They lacked key values needed for valid analysis |
 | Separated overall and cohort retention rates | They use different populations and observation windows |
+
+## Business Recommendation
+| Priority | Recommendation | Suggested first action | Success measure |
+|---|---|---|---|
+| High | Increase repeat purchasing through customer re-engagement | Segment first-time customers and test personalised re-engagement campaigns, relevant cross-sells, and loyalty incentives | Repeat-purchase rate, repeat revenue, average order value, and customer lifetime value |
+
+The low repeat-purchase rate suggests an opportunity to strengthen the relationship between a customer’s first purchase and their next purchase. Satisfaction and delivery performance were generally positive overall, although both should still be optimised at state level where weaknesses appear.
+
+A structured re-engagement strategy could include:
+
+- Relevant product recommendations based on a customer’s first purchase.
+- Cross-sell and upsell suggestions for complementary products.
+- A loyalty or rewards programme with clear early milestones.
+- Post-purchase follow-up communication and reorder reminders.
+- Targeted win-back offers for customers who have not returned within a defined period.
+- Controlled testing to measure incremental repeat purchases and return on campaign spend.
+
+These actions should be tested rather than assumed to work. Their impact should be measured against a control group using repeat-purchase rate, average order value, repeat revenue, and customer lifetime value.
