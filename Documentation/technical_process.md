@@ -1,402 +1,436 @@
 # Technical Process
 
-This document explains how the Olist E-Commerce Analytics project was built, from raw data exploration to dashboard validation.
+This document explains how I prepared, validated, and analysed the Olist e-commerce dataset using SQL Server.
 
-## 1. Project Workflow
+The workflow moved from raw CSV files to a validated analytical view, then to Power BI dashboards and business findings.
+
+## Workflow
 
 ```text
-Raw CSV data
-→ SQL Server import
-→ Data exploration
-→ Table joins
-→ Cleaning and transformation
-→ Data enrichment
-→ Final analytical table
-→ Data-quality validation
-→ Power BI modelling
-→ DAX measures
-→ Dashboard development
-→ SQL-to-Power BI reconciliation
-→ Findings and recommendations
+Data collection and import
+→ Explore and understand the data
+→ Define the information required
+→ Join source tables
+→ Clean and transform the data
+→ Add delivery-performance fields
+→ Prepare the final analytical view
+→ Run quality and quantity checks
+→ Analyse customer retention
+→ Build Power BI dashboards
+→ Validate results in Excel
 ```
 
-## 2. Tools and Environment
+## 1. Data collection and import
 
-| Tool | Purpose |
+I downloaded the Olist dataset from Kaggle in CSV format and imported the files into SQL Server using SQL Server Management Studio (SSMS).
+
+I reviewed each file to understand its contents and how the tables related to one another.
+
+### Source tables
+
+| Table | What it provides |
 |---|---|
-| SQL Server | Data storage, exploration, joins, cleaning, transformation, and validation |
-| SQL Server Management Studio | Query development and result review |
-| Power BI Desktop | Data modelling, DAX, dashboard design, and analysis |
-| DAX | Reusable business measures and calculated logic |
-| Excel | Supplementary review and validation |
-| GitHub | Version control and project documentation |
+| `orders_dataset` | Order status, purchase date, and delivery dates |
+| `customers_dataset` | Customer location and unique customer identifier |
+| `order_items_dataset` | Items, sellers, price, and freight value |
+| `order_payments_dataset` | Payment value |
+| `order_reviews_dataset` | Review score and review identifier |
+| `products_dataset` | Product category |
+| `sellers_dataset` | Seller location |
+| `product_category_translation` | English product-category names |
 
-## 3. Source Data
+![Database schema](../Images/sql/01_database_schema.png)
 
-The project uses the Brazilian E-Commerce Public Dataset by Olist.
+## 2. Explore and understand the data
 
-### Tables used
-
-| Table | Grain | Purpose |
-|---|---|---|
-| `olist_orders_dataset` | One row per order | Order status and delivery dates |
-| `olist_customers_dataset` | One row per customer-order link | Customer location and unique customer identifier |
-| `olist_order_items_dataset` | One row per order item | Product, seller, price, and freight information |
-| `olist_order_payments_dataset` | One row per payment record | Payment value and payment type |
-| `olist_order_reviews_dataset` | One row per review | Customer review score and review text |
-| `olist_products_dataset` | One row per product | Product category and physical attributes |
-| `olist_sellers_dataset` | One row per seller | Seller location |
-| `product_category_name_translation` | One row per Portuguese category | English category translation |
+Before joining the tables, I checked how orders, customers, items, payments, and reviews were connected.
 
 ### Key data-grain issue
 
-The source tables do not share the same grain:
+A single `order_id` can contain multiple items. It can also have multiple payment records and, in some cases, multiple review records.
 
-- An order can contain multiple items.
-- An order can have multiple payment records.
-- A joined analytical table can therefore contain repeated order, payment, customer, and review information.
-- A direct `SUM(payment_value)` across the joined table would overstate revenue.
+This means a joined table can contain repeated order, payment, and review values at item level. A direct sum of `payment_value` across the joined table could therefore overstate revenue.
 
-This is why revenue is calculated once per distinct delivered `order_id`.
+For this reason, revenue and other order-level measures were calculated once per distinct delivered `order_id`.
 
-## 4. Data Exploration
+### Review handling
 
-The first SQL script, `01_data_exploration.sql`, was used to understand the structure and quality of the source data.
+Some orders had no review score. I retained these records because a missing review does not prove dissatisfaction.
 
-### Checks performed
+For review analysis, I included only orders with a review score. For sales, delivery, and retention analysis, an order without a review could still be included.
 
-- Identified table row counts.
-- Reviewed column names and data types.
-- Checked primary and foreign-key fields.
-- Identified missing values.
-- Checked duplicate identifiers.
-- Reviewed order-status values.
-- Reviewed date ranges.
-- Checked customer, seller, product, payment, and review coverage.
+### Initial missing-record check
 
-### Example exploration query
-
-```sql
-SELECT
-    COUNT(*) AS total_rows,
-    COUNT(DISTINCT order_id) AS distinct_orders,
-    MIN(order_purchase_timestamp) AS earliest_order,
-    MAX(order_purchase_timestamp) AS latest_order
-FROM olist_orders_dataset;
-```
-
-### Screenshot placeholder
-
-![Data exploration query results](../Images/sql/01_data_exploration.png)
-
-## 5. Table Joins
-
-The second script, `02_table_joins.sql`, combined the source tables into an analytical dataset.
-
-### Join design
-
-| Join | Join key | Purpose |
-|---|---|---|
-| Orders to customers | `customer_id` | Add customer state and unique customer identifier |
-| Orders to order items | `order_id` | Add product, seller, price, and freight details |
-| Order items to products | `product_id` | Add product category and attributes |
-| Order items to sellers | `seller_id` | Add seller state |
-| Orders to payments | `order_id` | Add payment value and payment type |
-| Orders to reviews | `order_id` | Add review score |
-| Products to category translation | `product_category_name` | Add English product-category names |
-
-### Important decision
-
-The analytical table was designed to retain the detail needed for product, seller, and delivery analysis. Because this creates repeated values at order level, all order-level financial metrics must be aggregated carefully.
-
-## 6. Cleaning and Transformation
-
-The third script, `03_data_cleaning_and_transformation.sql`, prepared the data for analysis.
-
-### Actions taken
-
-- Standardised column names and data types.
-- Converted date fields to appropriate date types.
-- Removed rows identical across selected columns using `SELECT DISTINCT`.
-- Reviewed missing values in key analytical fields.
-- Standardised categorical values where required.
-- Prepared delivery-status and delivery-timing fields.
-- Prepared fields for state-level and customer-level analysis.
-
-### Example cleaning query
+I ran an initial check for missing or unlinked order and review information.
 
 ```sql
 SELECT DISTINCT
-    order_id,
-    customer_id,
-    order_status,
-    CAST(order_purchase_timestamp AS DATE) AS order_date
-FROM olist_orders_dataset;
+    OD.customer_id,
+    O.order_id,
+    R.review_id,
+    R.review_score
+FROM dbo.order_items_dataset AS O
+FULL JOIN dbo.order_reviews_dataset AS R
+    ON O.order_id = R.order_id
+FULL JOIN dbo.orders_dataset AS OD
+    ON O.order_id = OD.order_id
+WHERE OD.customer_id IS NULL
+   OR O.order_id IS NULL
+   OR R.review_id IS NULL;
 ```
 
-## 7. Data Enrichment
+![Data exploration result](../Images/sql/02_data_exploration_result.png)
 
-The fourth script, `04_data_enrichment.sql`, created analytical fields used in the dashboard and findings.
+**Result:**  
+This query identified records with incomplete order, customer, or review relationships. It does not isolate only orphaned review records: orders without a review are also returned because the review fields are null after the join.
 
-### Fields created
+Orders without reviews were retained for sales, delivery, and retention analysis. They were excluded only from review-based metrics.
 
-- Delivery duration.
-- Estimated delivery duration.
-- Delivery delay in days.
-- On-time or late-delivery flag.
-- Delivered-order flag.
-- Order month and order year.
-- Repeat-purchase analysis fields.
+## 3. Define the information required
 
-### Example enrichment logic
+I identified the information needed for the three main areas of analysis.
+
+| Analysis area | Information required |
+|---|---|
+| Sales | Order date, order status, customer state, product category, price, payment value, seller state |
+| Delivery | Purchase date, shipping limit, carrier delivery date, estimated delivery date, customer delivery date |
+| Customer satisfaction and retention | Review score, customer unique identifier, order identifier, order date, delivery outcome |
+
+### Key analytical decisions
+
+- I used `customer_unique_id` for customer-level retention analysis.
+- I used `order_id` to prevent orders from being counted more than once.
+- I treated delivered orders as completed purchases for revenue and retention analysis.
+- I focused on calendar dates rather than timestamps.
+
+## 4. Join the source tables
+
+I joined the source tables needed for sales, delivery, and customer-satisfaction analysis.
+
+The source tables have different levels of detail:
+
+- `orders_dataset` has one row per order.
+- `order_items_dataset` can have multiple rows per order.
+- `order_payments_dataset` can have multiple rows per order.
+- `order_reviews_dataset` can have multiple review records per order.
+
+Joining these tables can create repeated order, payment, and review values at item level. `SELECT DISTINCT` removes fully identical rows, but it does not solve every duplication issue caused by different table grains.
+
+For that reason, the joined query was used to prepare the analytical dataset—not to calculate revenue. Revenue was calculated separately at order grain.
+
+### Join design
+
+| Table | Join key | Information added |
+|---|---|---|
+| `orders_dataset` | `order_id` | Order status and delivery dates |
+| `order_reviews_dataset` | `order_id` | Review score and review identifier |
+| `order_items_dataset` | `order_id` | Product, seller, price, and freight value |
+| `products_dataset` | `product_id` | Product category |
+| `order_payments_dataset` | `order_id` | Payment value |
+| `customers_dataset` | `customer_id` | Customer location and unique customer identifier |
+| `sellers_dataset` | `seller_id` | Seller location |
+| `product_category_translation` | `product_category_name` | English category name |
+
+```sql
+USE Olist_Ecommerce_data;
+
+SELECT DISTINCT
+    OD.order_id,
+    C.customer_id,
+    C.customer_city,
+    C.customer_state,
+    CN.product_category,
+    OI.price,
+    OD.order_purchase_timestamp,
+    OI.shipping_limit_date,
+    OD.order_delivered_carrier_date,
+    OD.order_estimated_delivery_date,
+    OI.freight_value,
+    OP.payment_value,
+    OD.order_delivered_customer_date,
+    O.review_score,
+    OD.order_status,
+    S.seller_id,
+    S.seller_city,
+    S.seller_state
+FROM dbo.orders_dataset AS OD
+LEFT JOIN dbo.order_reviews_dataset AS O
+    ON OD.order_id = O.order_id
+LEFT JOIN dbo.order_items_dataset AS OI
+    ON OD.order_id = OI.order_id
+LEFT JOIN dbo.products_dataset AS P
+    ON OI.product_id = P.product_id
+LEFT JOIN dbo.order_payments_dataset AS OP
+    ON OI.order_id = OP.order_id
+LEFT JOIN dbo.customers_dataset AS C
+    ON OD.customer_id = C.customer_id
+LEFT JOIN dbo.sellers_dataset AS S
+    ON OI.seller_id = S.seller_id
+LEFT JOIN dbo.product_category_translation AS CN
+    ON P.product_category_name = CN.product_category_name;
+```
+
+![Table joins result](../Images/sql/03_table_joins_result.png)
+
+**Note:**  
+Use the actual column names from your imported translation table. If your imported table uses `Portugues`, replace `CN.product_category_name` with `CN.Portugues` and add a note explaining the imported column name.
+
+## 5. Clean and transform the data
+
+I standardised the fields needed for consistent reporting.
+
+### Actions taken
+
+- Removed underscores from product-category names.
+- Converted relevant datetime fields to dates.
+- Rounded price, freight value, and payment value to two decimal places.
+- Prepared date fields for monthly and yearly analysis.
+
+```sql
+REPLACE(CN.product_category, '_', ' ') AS product_category,
+CAST(OD.order_purchase_timestamp AS DATE) AS order_date,
+CAST(OI.shipping_limit_date AS DATE) AS shipping_limit_date,
+CAST(OD.order_delivered_carrier_date AS DATE) AS order_delivered_carrier_date,
+CAST(OD.order_estimated_delivery_date AS DATE) AS order_estimated_delivery_date,
+CAST(OD.order_delivered_customer_date AS DATE) AS order_delivered_customer_date,
+ROUND(OI.price, 2) AS price,
+ROUND(OI.freight_value, 2) AS freight_value,
+ROUND(OP.payment_value, 2) AS payment_value
+```
+
+![Data cleaning result](../Images/sql/04_data_cleaning_result.png)
+
+**Result:**  
+The category, date, and financial fields were standardised for analysis.
+
+## 6. Add delivery-performance fields
+
+I created `delivery_status` and `delivery_delay_days` to support delivery analysis.
+
+### Delivery-status definition
+
+| Status | Definition |
+|---|---|
+| On time | Delivered on or before the estimated delivery date |
+| Late | Delivered after the estimated delivery date |
+| Not delivered | No customer-delivery date was recorded |
+
+Early deliveries were grouped with on-time deliveries because both met or beat the estimated delivery date.
+
+### Delivery-delay definition
+
+`delivery_delay_days` measures how many days late an order was.
+
+- On-time deliveries, including early deliveries, were assigned zero days.
+- Late deliveries were assigned the number of days after the estimated delivery date.
+- The field does not show negative values for early deliveries.
+- Orders without a customer-delivery date were not assessed for lateness.
 
 ```sql
 CASE
-    WHEN order_delivered_customer_date <= order_estimated_delivery_date
-    THEN 'On time'
+    WHEN OD.order_status IN ('canceled', 'processing', 'unavailable')
+        THEN 'Not Delivered'
+    WHEN OD.order_delivered_customer_date IS NULL
+        THEN 'Not Delivered'
+    WHEN OD.order_delivered_customer_date <= OD.order_estimated_delivery_date
+        THEN 'On Time'
     ELSE 'Late'
-END AS delivery_performance
+END AS delivery_status,
+
+CASE
+    WHEN OD.order_delivered_customer_date > OD.order_estimated_delivery_date
+        THEN DATEDIFF(
+            DAY,
+            OD.order_estimated_delivery_date,
+            OD.order_delivered_customer_date
+        )
+    WHEN OD.order_delivered_customer_date IS NULL
+        THEN NULL
+    ELSE 0
+END AS delivery_delay_days
 ```
 
-## 8. Final Analytical Table
+![Data enrichment result](../Images/sql/05_data_enrichment_result.png)
 
-The fifth script, `05_final_table_preparation.sql`, created the final analytical view used by Power BI.
+**Result:**  
+The fields separated confirmed deliveries from orders without a recorded customer-delivery date and measured lateness for late deliveries.
 
-### Final table purpose
+## 7. Prepare the final analytical view
 
-The final table combines:
+I created `vw_olist_analysis`, a SQL view containing the prepared data for quality checks, Power BI, and analysis.
 
-- Order information.
-- Customer information.
-- Product and category information.
-- Seller information.
-- Payment information.
-- Review information.
-- Delivery performance fields.
-- Date fields for trend analysis.
+### Why I created a view
 
-### Important modelling note
+The view provided one consistent data source for the rest of the project. It avoided repeating the join and transformation logic in later queries.
 
-The final table is at a detailed analytical grain. It supports product, seller, state, and delivery analysis, but it requires order-level aggregation for revenue and customer metrics.
+### Exclusion decision
 
-## 9. Data-Quality Validation
-
-The sixth script, `06_data_quality_checks.sql`, validated the prepared dataset before dashboard development.
-
-### Checks performed
-
-| Check | Purpose |
-|---|---|
-| Row count | Confirm expected volume after joins |
-| Distinct order count | Confirm order-level uniqueness |
-| Delivered-order count | Confirm the revenue population |
-| Distinct customer count | Confirm customer coverage |
-| Missing order IDs | Identify join issues |
-| Missing customer IDs | Identify customer-link issues |
-| Missing delivery dates | Identify incomplete delivery records |
-| Duplicate order IDs | Identify unintended duplication |
-| Revenue total | Confirm order-level revenue calculation |
-| Date range | Confirm analysis period |
-
-### Revenue validation query
+I excluded 611 records with an `unavailable` order status because they lacked key values needed for valid analysis.
 
 ```sql
-WITH order_revenue AS
-(
-    SELECT
-        order_id,
-        MAX(payment_value) AS order_revenue
-    FROM dbo.vw_olist_analysis
-    WHERE order_status = 'delivered'
-    GROUP BY
-        order_id
-)
-SELECT
-    COUNT(DISTINCT order_id) AS delivered_orders,
-    SUM(order_revenue) AS total_revenue
-FROM order_revenue;
+WHERE OD.order_status != 'unavailable'
 ```
 
-### Validated result
+![Final analytical table result](../Images/sql/06_final_table_result.png)
 
-| Metric | Result |
-|---|---:|
-| Delivered orders | 96,478 |
-| Total revenue | R$15.28M |
+**Result:**  
+The final view became the consistent source for data-quality checks, customer-retention analysis, and Power BI visualisation.
 
-### Screenshot placeholder
+## 8. Quality and quantity checks
 
-![Revenue validation query results](../Images/sql/02_revenue_validation.png)
+I ran checks for validity, completeness, and expected record counts. Each validity query was designed to return rows that violated the rule; no rows meant the issue was not found.
 
-## 10. Customer Retention Analysis
+### Validity checks
 
-The seventh script, `07_customer_retention.sql`, measured repeat purchasing.
+#### Invalid delivery-date relationship
+
+```sql
+SELECT *
+FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
+WHERE order_delivered_customer_date < order_date;
+```
+
+**Result:** No rows returned. No customer-delivery date occurred before the purchase date.
+
+#### Delivered orders without a customer identifier
+
+```sql
+SELECT *
+FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
+WHERE order_status = 'delivered'
+  AND customer_unique_id IS NULL;
+```
+
+**Result:** No rows returned. Every delivered order had a customer identifier.
+
+### Completeness checks
+
+Review fields were expected to contain null values because not every order received a review. These records were retained for sales, delivery, and retention analysis but excluded from review-based metrics.
+
+```sql
+SELECT
+    SUM(CASE WHEN order_id IS NULL THEN 1 ELSE 0 END) AS null_order_id,
+    SUM(CASE WHEN customer_unique_id IS NULL THEN 1 ELSE 0 END) AS null_customer_unique_id,
+    SUM(CASE WHEN order_status IS NULL THEN 1 ELSE 0 END) AS null_order_status,
+    SUM(CASE WHEN payment_value IS NULL THEN 1 ELSE 0 END) AS null_payment_value,
+    SUM(CASE WHEN review_score IS NULL THEN 1 ELSE 0 END) AS null_review_score,
+    SUM(CASE WHEN product_category IS NULL THEN 1 ELSE 0 END) AS null_category,
+    SUM(CASE WHEN delivery_status IS NULL THEN 1 ELSE 0 END) AS null_delivery_status
+FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
+```
+
+**Result:**  
+- No null values were found in `order_id`, `customer_unique_id`, `order_status`, or `delivery_status`.
+- Null review values were expected and retained for investigation.
+- 174 records had no payment value; one was a delivered order.
+- 1,727 records had no product category.
+
+### Quantity reconciliation
+
+```sql
+SELECT
+    COUNT(*) AS total_records,
+    COUNT(DISTINCT customer_unique_id) AS total_unique_customers,
+    COUNT(DISTINCT order_id) AS total_unique_orders
+FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
+```
+
+| Check | Expected | Actual | Result |
+|---|---:|---:|---|
+| Total records | 106,354 | 106,354 | Matched |
+| Distinct orders | 98,832 | 98,832 | Matched |
+| Distinct customers | 95,526 | 95,526 | Matched |
+
+![Data quality checks result](../Images/sql/07_data_quality_checks_result.png)
+
+**Note:**  
+The 611 `unavailable` records were excluded in the final view, so they are not included in these counts. A matching count confirms that the final view returned the expected volume; it does not by itself prove that every underlying source value is correct.
+
+## 9. Customer-retention analysis
+
+I measured repeat purchasing using delivered orders and `customer_unique_id`.
 
 ### Overall repeat-purchase rate
 
-The overall repeat-purchase rate was calculated among customers with at least one delivered order.
+**Definition:**  
+Customers with more than one delivered order divided by customers with at least one delivered order.
 
 ```sql
-WITH delivered_orders AS
+SELECT
+    COUNT(*) AS total_repeat_customers
+FROM
 (
     SELECT
-        customer_unique_id,
-        order_id,
-        order_date
-    FROM dbo.vw_olist_analysis
+        customer_unique_id
+    FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
     WHERE order_status = 'delivered'
-),
-customer_first_order AS
-(
-    SELECT
-        customer_unique_id,
-        MIN(order_date) AS first_order_date
-    FROM delivered_orders
+      AND customer_unique_id IS NOT NULL
     GROUP BY
         customer_unique_id
-)
-SELECT
-    COUNT(DISTINCT d.customer_unique_id) AS customers_with_delivered_order,
-    COUNT(DISTINCT CASE
-        WHEN d.order_date > c.first_order_date
-        THEN d.customer_unique_id
-    END) AS repeat_customers
-FROM delivered_orders AS d
-INNER JOIN customer_first_order AS c
-    ON d.customer_unique_id = c.customer_unique_id;
+    HAVING
+        COUNT(DISTINCT order_id) > 1
+) AS RepeatCustomers;
 ```
 
-### Result
+**Result:**  
+2,801 of 93,358 customers with at least one delivered order made more than one delivered order.
 
-| Metric | Result |
-|---|---:|
-| Customers with at least one delivered order | 93,358 |
-| Overall repeat-purchase rate | 3.0% |
+**Overall repeat-purchase rate:** 3.0%
 
-### 12-month cohort analysis
+### 12-month cohort repeat-purchase rate
 
-The 12-month cohort analysis used a separate eligible population and observation window.
+**Definition:**  
+Eligible customers who made another delivered purchase within 12 months of their first delivered order, divided by eligible customers with a full 12-month observation window.
 
-| Observation window | Eligible customers | Repeat customers | Repeat-purchase rate |
+**Result:**  
+711 of 21,361 eligible customers made another delivered purchase within 12 months.
+
+**12-month cohort repeat-purchase rate:** 3.33%
+
+| Observation window | Eligible customers | Repeat customers | Cohort repeat-purchase rate |
 |---|---:|---:|---:|
 | Within 3 months | 21,361 | 291 | 1.36% |
 | Within 6 months | 21,361 | 463 | 2.17% |
 | Within 12 months | 21,361 | 711 | 3.33% |
 
-### Screenshot placeholder
+![Customer retention result](../Images/sql/08_customer_retention_result.png)
 
-![Customer retention query results](../Images/sql/03_customer_retention.png)
+**Note:**  
+These are two different measures. The overall rate includes all customers with at least one delivered order. The cohort rate includes only customers whose first delivered order occurred early enough to allow a full 12-month observation window.
 
-## 11. Power BI Data Model
+## 10. Review score and repeat purchasing
 
-The Power BI report used the prepared analytical view as its main fact table.
+I examined whether the review score on a customer’s first delivered order was associated with repeat purchasing.
 
-### Model decisions
+### Approach
 
-- Used the prepared analytical table as the primary reporting source.
-- Created a date table for time-based analysis.
-- Established relationships using order, customer, product, seller, and date fields.
-- Checked relationship cardinality and filter direction.
-- Hid technical fields from the report view where appropriate.
-- Created a dedicated measures table for reusable DAX logic.
+- Created one record per delivered order.
+- Identified each customer’s first delivered order.
+- Included only customers with a review score and a full 12-month observation window.
+- Compared repeat-purchase rates by first-order review score.
 
-### Screenshot placeholder
+### Finding
 
-![Power BI data model](../Images/powerbi/01_data_model.png)
+Customers who gave higher first-order ratings showed slightly higher 12-month cohort repeat-purchase rates. The difference between the lowest and highest rating groups was 0.55 percentage points.
 
-## 12. DAX Measures
+Even among five-star customers, only 3.49% made another delivered purchase within the observation window.
 
-Key measures were created in DAX to ensure consistent calculations across visuals.
+### Interpretation
 
-### Total revenue
+This suggests that satisfaction alone may not explain repeat purchasing. The result does not prove that satisfaction has no effect; other factors, such as product category, order value, delivery experience, and purchase frequency, were not fully investigated.
 
-```dax
-Total Revenue = 
-CALCULATE(
-    SUMX(
-        DISTINCT(vw_olist_analysis[order_id]),
-        CALCULATE(MAX(vw_olist_analysis[payment_value]))
-    ),
-    vw_olist_analysis[order_status] = "delivered"
-)
-```
+![Review and retention result](../Images/sql/09_review_retention_result.png)
 
-### Why this measure is used
+## 11. Key SQL decisions
 
-- The analytical view is at a detailed grain.
-- One order can appear across multiple item rows.
-- `DISTINCT(order_id)` returns each delivered order once.
-- `MAX(payment_value)` returns the order payment value once.
-- `SUMX` sums the order-level values.
-- This prevents revenue from being inflated by repeated payment values.
-
-### Other key measures
-
-| Measure | Purpose |
+| Decision | Reason |
 |---|---|
-| Delivered Orders | Count distinct delivered orders |
-| Distinct Customers | Count distinct customers |
-| Customers with Delivered Order | Count customers with at least one delivered order |
-| Overall Repeat-Purchase Rate | Measure repeat purchasing among eligible customers |
-| On-Time Delivery Rate | Measure delivery reliability |
-| Late Delivery Rate | Measure late-delivery share |
-| Average Review Score | Measure customer satisfaction |
-| Positive Review Share | Measure the share of 4–5 star reviews |
-
-## 13. Dashboard Development
-
-The Power BI report contains four pages.
-
-| Page | Purpose |
-|---|---|
-| Overview | Executive summary of headline KPIs and findings |
-| Sales Performance | Revenue, orders, customers, trends, and state performance |
-| Delivery Performance | On-time delivery, late delivery, and state-level logistics performance |
-| Customer Satisfaction & Retention | Review scores, positive reviews, and repeat purchasing |
-
-### Design decisions
-
-- Placed headline KPIs at the top of each page.
-- Used trend charts to show performance over time.
-- Used state-level visuals to identify regional differences.
-- Used filters to allow exploration by date, state, product category, and delivery outcome.
-- Kept visual titles question-led rather than descriptive.
-- Added insight text to explain what each page reveals.
-
-### Screenshot placeholders
-
-![Overview dashboard](../Images/01_overview_dashboard.png)
-
-![Sales performance dashboard](../Images/02_sales_performance_dashboard.png)
-
-![Delivery performance dashboard](../Images/03_delivery_performance_dashboard.png)
-
-![Customer satisfaction dashboard](../Images/04_customer_satisfaction_dashboard.png)
-
-## 14. SQL-to-Power BI Reconciliation
-
-Before finalising the report, key Power BI measures were compared with SQL results.
-
-| Metric | SQL result | Power BI result | Status |
-|---|---:|---:|---|
-| Distinct orders | 98,832 | 98,832 | Matched |
-| Delivered orders | 96,478 | 96,478 | Matched |
-| Distinct customers | 95,526 | 95,526 | Matched |
-| Customers with at least one delivered order | 93,358 | 93,358 | Matched |
-| Total revenue | R$15.28M | R$15.28M | Matched |
-| Overall repeat-purchase rate | 3.0% | 3.0% | Matched |
-| São Paulo revenue share | 37.42% | 37.42% | Matched |
-| Revenue growth | 22.4% | 22.4% | Matched |
-
-### Screenshot placeholder
-
-![SQL and Power BI reconciliation](../Images/validation/01_reconciliation.png)
-
-## 15. Lessons Learned
-
-- Understand table grain before aggregating financial values.
-- Do not treat a joined row count as a distinct order count.
-- Validate revenue, customer, and order counts against SQL before publishing a dashboard.
-- Separate the overall repeat-purchase rate from cohort-based retention analysis.
-- Document assumptions and limitations alongside findings.
-- Build dashboards around business questions, not available fields.
+| Used `customer_unique_id` for retention | It identifies the same customer across multiple customer records |
+| Used `order_id` for order-level metrics | Prevents multi-item orders from being counted more than once |
+| Calculated revenue at order grain | Prevents repeated payment values from inflating revenue |
+| Used delivered orders for revenue and retention | Revenue and repeat purchasing are based on completed purchases |
+| Grouped early deliveries with on-time deliveries | Both met or beat the estimated delivery date |
+| Retained orders without reviews | Missing reviews were investigated rather than treated as dissatisfaction |
+| Created a SQL view | Provided one consistent source for validation, analysis, and Power BI |
+| Excluded unavailable orders | They lacked key values needed for valid analysis |
+| Separated overall and cohort retention rates | They use different populations and observation windows |
