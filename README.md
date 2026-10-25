@@ -2,8 +2,7 @@
 ### Sales Performance, Delivery Reliability & Customer Retention
 An end-to-end data analytics project exploring sales performance, delivery operations, customer satisfaction, and repeat purchasing in the Olist Brazilian e-commerce marketplace.
 
-**Key result:** Revenue grew 22.4% in 2018, but only 3.0% of customers with at least one delivered order made another delivered purchase, indicating an opportunity to strengthen retention and increase customer lifetime value.
-
+**Key result:** Revenue grew 22.4% in 2018, but only 3.0% of customers with at least one delivered order made another delivered purchase within the observed period, highlighting an opportunity to strengthen customer re-engagement and increase customer lifetime value.
 **Technical walkthrough:** See [`Documentation/technical_process.md`](Documentation/technical_process.md) for the full step-by-step process, SQL validation evidence, data-modelling decisions, and dashboard development notes.
 
 **Tools:** SQL Server · Power BI · DAX · Excel  
@@ -33,7 +32,7 @@ Test targeted retention campaigns for customers with at least one delivered orde
 
 Olist connects sellers with customers through an online marketplace. Revenue growth and customer acquisition are important, but they do not show whether customers return to purchase again or whether delivery operations remain reliable.
 
-This project examines sales trends, delivery performance, customer reviews, and repeat purchasing to identify where the business is performing well and where further investigation may be valuable.
+This project examines sales trends, delivery performance, customer reviews, and repeat purchases to identify where the business performs well and where further investigation may be valuable.
 
 ### Key business questions
 
@@ -67,7 +66,7 @@ This project examines sales trends, delivery performance, customer reviews, and 
 
 ## 3. Key Findings
 
-### Finding 1: Customer acquisition is outpacing repeat purchasing
+### Finding 1: Strong Customer acquisition is not yielding as many repeat purchases over time
 
 Revenue grew by 22.4%, and the customer base grew by 21.6% in 2018 versus 2017. Because the dataset ends in October 2018, year-over-year comparisons use matching date ranges.
 
@@ -79,9 +78,11 @@ Among the 93,358 customers with at least one delivered order, 3.0% made at least
 | Within 6 months | 21,361 | 463 | 2.17% |
 | Within 12 months | 21,361 | 711 | 3.33% |
 
-**Business implication:** Acquisition-led growth may not be translating into strong repeat purchasing. The data does not establish permanent churn, but it highlights an opportunity to investigate how customers with completed purchases can be encouraged to return.
+**Business implication:** Acquisition-led growth may not be translating into frequent repeat purchasing. Olist could investigate how to encourage customers with completed purchases to return through relevant product recommendations, post-purchase engagement, and structured re-engagement campaigns.
 
-**Recommended next step:** Segment customers with one delivered order by product category, order value, delivery outcome, and review score. Test targeted re-engagement campaigns against a control group and measure incremental repeat purchases.
+Because Olist is not a subscription platform, customers who did not purchase again cannot be classified as churned. They may not have needed another product, may purchase infrequently, or may have been acquired too recently to observe another purchase. The low repeat-purchase rate therefore identifies a re-engagement opportunity rather than proving customer loss.
+
+**Recommended next step:** Segment first-time customers by product category, order value, delivery outcome, and review score. Test targeted re-engagement campaigns against a control group and measure incremental repeat purchases, average order value, and customer lifetime value.
 
 ### Finding 2: São Paulo is Olist’s core revenue market
 
@@ -181,9 +182,9 @@ Evaluates on-time delivery, late deliveries, and differences in delivery perform
 - Which states have elevated late-delivery rates?
 - Where should logistics performance be investigated?
 
-### Customer Satisfaction & Retention
+### Customer Satisfaction & Repeat Purchasing
 
-![Customer Satisfaction and Retention Dashboard](Images/04_customer_satisfaction_dashboard.png)
+![Customer Satisfaction and Repeat Purchasing Dashboard](Images/04_customer_satisfaction_dashboard.png)
 
 Explores review scores, positive review share, and repeat purchasing.
 
