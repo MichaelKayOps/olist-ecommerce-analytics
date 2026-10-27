@@ -170,7 +170,7 @@ LEFT JOIN dbo.product_category_translation AS CN
     ON P.product_category_name = CN.product_category_name;
 ```
 
-![Table joins result](../Images/sql/03_table_joins_result.png)
+![Table joins result](../Images/sql/03_table_joins.png)
 
 **Note:**  
 Use the actual column names from your imported translation table. If your imported table uses `Portugues`, replace `CN.product_category_name` with `CN.Portugues` and add a note explaining the imported column name.
@@ -341,7 +341,7 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
 | Distinct orders | 98,832 | 98,832 | Matched |
 | Distinct customers | 95,526 | 95,526 | Matched |
 
-![Data quality checks result](../Images/sql/07_data_quality_checks_result.png)
+![Data quality checks result](../Images/sql/08_data_quality_checks_result.png)
 
 **Note:**  
 The 611 `unavailable` records were excluded in the final view, so they are not included in these counts. A matching count confirms that the final view returned the expected volume; it does not by itself prove that every underlying source value is correct.
@@ -392,7 +392,7 @@ The share of eligible customers who made another delivered purchase within 12 mo
 | Within 6 months | 21,361 | 463 | 2.17% |
 | Within 12 months | 21,361 | 711 | 3.33% |
 
-![Customer retention result](../Images/sql/08_customer_retention_result.png)
+![Customer retention result](../Images/sql/09_total_repeat_customers_result.png)
 
 **Note:**  
 These are two different measures. The overall rate includes all customers with at least one delivered order. The cohort rate includes only customers whose first delivered order occurred early enough to allow a full 12-month observation window. They do not measure churn. Because Olist is not a subscription platform, there is no cancellation event that proves a customer has left.
@@ -418,8 +418,8 @@ Even among five-star customers, only 3.49% made another delivered purchase withi
 
 This suggests that satisfaction alone may not be the main driver of repeat purchasing. It does not prove that satisfaction has no effect. Other factors—such as product category, order value, delivery experience, purchase frequency, and customer needs—may also influence whether customers return.
 
-![Review and retention result](../Images/sql/09_review_retention_result.png)
-
+![Repeat purchase by Review score result](../Images/sql/10_repeat_purcjase_by_review_result.png)
+![Repeat purchase by Reviews chart](../Images/sql/10_repeat_purcjase_by_review.png)
 ## 11. Key SQL decisions
 
 | Decision | Reason |
