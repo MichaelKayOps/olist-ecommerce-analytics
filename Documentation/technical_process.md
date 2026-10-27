@@ -290,7 +290,7 @@ SELECT COUNT (*) AS Invalid_delivery_date_relationship
 FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
 WHERE order_delivered_customer_date < order_date;
 ```
-**Result:** No rows returned. No customer-delivery date occurred before the purchase date.
+**Result:** The query returned zero rows, so the validity check passed. No customer-delivery date occurred before the corresponding purchase date.
 
 ![Invalid Delivery-Date Relationship Result](../Images/sql/08_invalid_delivery_date_result.png)
 
@@ -302,7 +302,7 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
 WHERE order_status = 'delivered'
   AND customer_unique_id IS NULL;
 ```
-**Result:** No rows returned. Every delivered order had a customer identifier.
+**Result:** The query returned zero rows, so the validity check passed. Every delivered order had a customer identifier.
 
 ![Invalid Delivered-Order Identifier Result](../Images/sql/08_invalid_delivered_order_result.png)
 
