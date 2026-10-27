@@ -400,6 +400,7 @@ These are two different measures. The overall rate includes all customers with a
 ## 10. Review score and repeat purchasing
 
 I examined whether the review score on a customer’s first delivered order was associated with repeat purchasing within 12 months.
+
 ![Repeat purchase by Review score result](../Images/sql/10_repeat_purchase_by_review_result.png)
 
 ### Approach
@@ -412,8 +413,10 @@ I examined whether the review score on a customer’s first delivered order was 
 ### Finding
 
 Customers who gave higher first-order ratings showed slightly higher 12-month cohort repeat-purchase rates. The difference between the lowest and highest rating groups was 0.55 percentage points.
-![Repeat purchase by Reviews chart](../Images/sql/10_1_repeat_purchase_by_review.png)
 
+<p align="center">
+  <img src="../Images/sql/10_1_repeat_purchase_by_review.png" alt="Repeat purchase by Reviews chart" width="600">
+</p>
 Even among five-star customers, only 3.49% made another delivered purchase within the observation window.
 
 ### Interpretation
