@@ -258,6 +258,7 @@ The fields separated confirmed deliveries from orders without a recorded custome
 ## 7. Prepare the final analytical view
 
 I created `vw_olist_analysis`, a SQL view containing the prepared data for quality checks, Power BI, and analysis.
+![Create table as View result](../Images/sql/createdview.png)
 
 ### Why I created a view
 
@@ -266,15 +267,15 @@ The view provided one consistent data source for the rest of the project. It avo
 ### Exclusion decision
 
 I excluded 611 records with an `unavailable` order status because they lacked key values needed for valid analysis.
-
 ```sql
 WHERE OD.order_status != 'unavailable'
 ```
-
-![Final analytical table result](../Images/sql/06_final_table_result.png)
+![Missing Order Records Result](../Images/sql/08_611rows_removed.png)
 
 **Result:**  
 The final view became the consistent source for data-quality checks, customer-retention analysis, and Power BI visualisation.
+
+![Final analytical table result](../Images/sql/06_final_table_result.png)
 
 ## 8. Quality and quantity checks
 
@@ -349,8 +350,6 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
 
 **Note:**  
 The 611 `unavailable` records were excluded in the final view, so they are not included in these counts. A matching count confirms that the final view returned the expected volume; it does not by itself prove that every underlying source value is correct.
-
-![Missing Order Records Result](../Images/sql/08_611rows_removed.png)
 
 ## 9. Repeat-purchase analysis
 I measured repeat purchasing using delivered orders and `customer_unique_id`.
