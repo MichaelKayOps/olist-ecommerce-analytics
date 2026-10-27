@@ -289,8 +289,9 @@ SELECT COUNT (*) AS Invalid_delivery_date_relationship
 FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
 WHERE order_delivered_customer_date < order_date;
 ```
-
 **Result:** No rows returned. No customer-delivery date occurred before the purchase date.
+
+![Invalid Delivery-Date Relationship Result](../Images/sql/08_invalid_delivery_date_result.png)
 
 #### Delivered orders without a customer identifier
 
@@ -300,8 +301,8 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
 WHERE order_status = 'delivered'
   AND customer_unique_id IS NULL;
 ```
-
 **Result:** No rows returned. Every delivered order had a customer identifier.
+![Invalid Delivered-Order Identifier Result](../Images/sql/invalid_delivered_order_result.png)
 
 ### Completeness checks
 
@@ -324,6 +325,8 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
 - Null review values were expected and retained for investigation.
 - 174 records had no payment value; one was a delivered order.
 - 1,727 records had no product category.
+
+![Data Completness Check Result](../Images/sql/08_completeness_check_result.png)
 
 ### Quantity reconciliation
 
@@ -373,6 +376,8 @@ FROM
 
 **Result:**  
 2,801 of 93,358 customers with at least one delivered order made more than one delivered order.
+
+![Overall Repeat Purchase Rate](../Images/sql/09_total_repeat_customers_result.png)
 
 **Overall repeat-purchase rate:** 3.0%
 
