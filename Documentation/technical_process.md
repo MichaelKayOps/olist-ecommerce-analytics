@@ -400,6 +400,7 @@ These are two different measures. The overall rate includes all customers with a
 ## 10. Review score and repeat purchasing
 
 I examined whether the review score on a customer’s first delivered order was associated with repeat purchasing within 12 months.
+![Repeat purchase by Review score result](../Images/sql/10_repeat_purchase_by_review_result.png)
 
 ### Approach
 
@@ -411,6 +412,7 @@ I examined whether the review score on a customer’s first delivered order was 
 ### Finding
 
 Customers who gave higher first-order ratings showed slightly higher 12-month cohort repeat-purchase rates. The difference between the lowest and highest rating groups was 0.55 percentage points.
+![Repeat purchase by Reviews chart](../Images/sql/10_1_repeat_purchase_by_review.png)
 
 Even among five-star customers, only 3.49% made another delivered purchase within the observation window.
 
@@ -418,8 +420,7 @@ Even among five-star customers, only 3.49% made another delivered purchase withi
 
 This suggests that satisfaction alone may not be the main driver of repeat purchasing. It does not prove that satisfaction has no effect. Other factors—such as product category, order value, delivery experience, purchase frequency, and customer needs—may also influence whether customers return.
 
-![Repeat purchase by Review score result](../Images/sql/10_repeat_purchase_by_review_result.png)
-![Repeat purchase by Reviews chart](../Images/sql/10_repeat_purchase_by_review.png)
+
 ## 11. Key SQL decisions
 
 | Decision | Reason |
