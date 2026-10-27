@@ -285,7 +285,7 @@ I ran checks for validity, completeness, and expected record counts. Each validi
 #### Invalid delivery-date relationship
 
 ```sql
-SELECT *
+SELECT COUNT (*) AS Invalid_delivery_date_relationship
 FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
 WHERE order_delivered_customer_date < order_date;
 ```
@@ -295,7 +295,7 @@ WHERE order_delivered_customer_date < order_date;
 #### Delivered orders without a customer identifier
 
 ```sql
-SELECT *
+SELECT COUNT(*) AS invalid_order_to_customer_identifier
 FROM Olist_Ecommerce_data.dbo.vw_olist_analysis
 WHERE order_status = 'delivered'
   AND customer_unique_id IS NULL;
