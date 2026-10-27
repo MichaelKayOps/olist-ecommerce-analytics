@@ -302,6 +302,7 @@ WHERE order_status = 'delivered'
   AND customer_unique_id IS NULL;
 ```
 **Result:** No rows returned. Every delivered order had a customer identifier.
+
 ![Invalid Delivered-Order Identifier Result](../Images/sql/invalid_delivered_order_result.png)
 
 ### Completeness checks
@@ -397,7 +398,7 @@ The share of eligible customers who made another delivered purchase within 12 mo
 | Within 6 months | 21,361 | 463 | 2.17% |
 | Within 12 months | 21,361 | 711 | 3.33% |
 
-![Customer retention result](../Images/sql/09_total_repeat_customers_result.png)
+![12-month cohort repeat-purchase rate](../Images/sql/09_cohort_repeat_purchase_rate_result.png)
 
 **Note:**  
 These are two different measures. The overall rate includes all customers with at least one delivered order. The cohort rate includes only customers whose first delivered order occurred early enough to allow a full 12-month observation window. They do not measure churn. Because Olist is not a subscription platform, there is no cancellation event that proves a customer has left.
