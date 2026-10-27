@@ -111,13 +111,13 @@ São Paulo accounted for 1,848 of the 3,093 sellers in the analysis, approximate
 
 **Business implication:** States without local sellers may depend on sellers based elsewhere, potentially affecting delivery distance, freight cost, and product availability. This highlights a potential regional seller-coverage opportunity.
 
-### Finding 5: Revenue declined after May 2018
+### Finding 5: Monthly revenue remained strong in 2018
 
-Monthly delivered-order revenue was R$1,119,878 in May 2018, R$1,018,894 in July 2018, and R$977,115 around October 2018.
+Monthly delivered-order revenue remained above R$950,000 in every complete month from January to August 2018. Revenue peaked at R$1.12M in May and eased to R$0.98M in August.
 
-This indicates a downward revenue trend over the latter part of the observed period. The decline should be investigated by separating changes in order volume, average order value, product-category mix, and seasonality.
+The August result reflected slightly fewer delivered orders and a lower average order value. Because the dataset ends in August 2018, this should be monitored rather than treated as evidence of a sustained decline.
 
-**Business implication:** Before recommending corrective action, determine whether the decline was driven by fewer orders, lower average order value, changes in product mix, or seasonal demand.
+**Business implication:** Track monthly revenue alongside order volume and average order value. If the lower level continues, investigate product mix, pricing, demand, and state-level performance.
 
 ---
 
@@ -217,7 +217,7 @@ Compared findings across sales, delivery, and customer analysis. External resear
 | High | Improve repeat purchasing | Segment customers with one delivered order and test targeted re-engagement campaigns | Overall repeat-purchase rate; 3-, 6-, and 12-month cohort rates |
 | High | Investigate late delivery in Maranhão | Review late orders by seller, carrier, destination, and dispatch timing | Late-delivery rate and average delay |
 | Medium | Understand geographic performance | Compare seller coverage, product availability, and demand across states | Revenue and order share by state |
-| Medium | Investigate the post-May revenue decline | Separate changes in order volume, AOV, and product mix | Monthly revenue, orders, and AOV |
+| Medium | Monitor monthly revenue, order volume, and AOV for sustained changes | Separate changes in order volume, AOV, and product mix | Monthly revenue, orders, and AOV |
 | Medium | Assess retention economics | Add margin, acquisition cost, and campaign cost data where available | Incremental repeat revenue and campaign ROI |
 
 These are proposed next steps based on observed patterns; their impact would need to be tested using additional data or controlled experiments.
@@ -226,7 +226,7 @@ These are proposed next steps based on observed patterns; their impact would nee
 
 ## 7. Limitations
 
-- **Historical coverage:** The dataset ends in October 2018 and does not describe Olist’s current performance.
+- **Historical coverage:** The dataset ends in August 2018; later months are not available, so recent revenue movements cannot be confirmed as a sustained trend.
 - **Partial final year:** Year-over-year comparisons use matching date ranges.
 - **Observational analysis:** Relationships between delivery, review scores, sales, and repeat purchasing do not establish causation.
 - **Small regional samples:** Acre’s 80 delivered orders limit the reliability of its repeat-purchase rate as a benchmark.
