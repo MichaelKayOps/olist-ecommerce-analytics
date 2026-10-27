@@ -79,7 +79,7 @@ WHERE OD.customer_id IS NULL
    OR R.review_id IS NULL;
 ```
 
-![Data exploration result](../Images/sql/02_1_data_exploration_result.png)
+![Data exploration result](../Images/sql/02_1_data_exploration.png)
 
 **Result:**  
 This query identified records with incomplete order, customer, or review relationships. It does not isolate only orphaned review records: orders without a review are also returned because the review fields are null after the join.
