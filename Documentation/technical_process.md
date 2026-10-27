@@ -303,7 +303,7 @@ WHERE order_status = 'delivered'
 ```
 **Result:** No rows returned. Every delivered order had a customer identifier.
 
-![Invalid Delivered-Order Identifier Result](../Images/sql/invalid_delivered_order_result.png)
+![Invalid Delivered-Order Identifier Result](../Images/sql/08_invalid_delivered_order_result.png)
 
 ### Completeness checks
 
