@@ -350,6 +350,8 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
 **Note:**  
 The 611 `unavailable` records were excluded in the final view, so they are not included in these counts. A matching count confirms that the final view returned the expected volume; it does not by itself prove that every underlying source value is correct.
 
+![Missing Order Records Result](../Images/sql/08_611rows_removed.png)
+
 ## 9. Repeat-purchase analysis
 I measured repeat purchasing using delivered orders and `customer_unique_id`.
 
