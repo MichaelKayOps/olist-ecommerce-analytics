@@ -678,8 +678,6 @@ They are not competing calculations of the same metric. The overall rate describ
 | Customers with at least one delivered order | 93,358 | 93,358 | Matched |
 | Total revenue | R$15.28M | R$15.28M | Matched |
 | Overall repeat-purchase rate | 3.0% | 3.0% | Matched |
-| São Paulo revenue share | 37.42% | 37.42% | Matched |
-| Revenue growth | 22.4% | 22.4% | Matched |
 
 <p align="center">
   <img src="../Images/validation/01_sql_powerbi_reconciliation.png" alt="SQL and Power BI result checks" width="850">
