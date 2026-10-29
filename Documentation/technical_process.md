@@ -682,7 +682,7 @@ They are not competing calculations of the same metric. The overall rate describ
 | Revenue growth | 22.4% | 22.4% | Matched |
 
 <p align="center">
-  <img src="../Images/validation/01_sql_powerbi_reconciliation.png" alt="SQL and Power BI result checks" width="850">
+  <img src="../Images/validation/01_sql_powerbi_reconciliation.pdf" alt="SQL and Power BI result checks" width="850">
 </p>
 
 **Result:** The key Power BI results matched the SQL results, confirming that the report used consistent calculations.
