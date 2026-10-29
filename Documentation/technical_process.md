@@ -445,6 +445,288 @@ This suggests that satisfaction alone may not be the main driver of repeat purch
 | Excluded unavailable orders | They lacked key values needed for valid analysis |
 | Separated overall and cohort retention rates | They use different populations and observation windows |
 
+# Technical Process: Data Visualisation with Power BI
+
+After the SQL workflow produced a validated analytical view, I connected `vw_olist_analysis` to Power BI Desktop to build the reporting model, DAX measures, and dashboards.
+
+The Power BI stage focused on turning the prepared data into a reporting model that could answer business questions consistently across sales, delivery, customer satisfaction, and repeat purchasing.
+
+## Power BI workflow
+
+```text
+Connect to SQL Server
+→ Load prepared analytical view
+→ Review and prepare the reporting model
+→ Create date table and measures table
+→ Develop DAX measures
+→ Design dashboard pages
+→ Build visuals and filters
+→ Cross-check Power BI results with SQL and DAX
+→ Use Excel to examine findings
+→ Review findings and limitations
+```
+
+## 1. Connect SQL Server to Power BI
+
+I connected Power BI Desktop to the SQL Server database and loaded `vw_olist_analysis` as the main analytical table.
+
+### Why I used the SQL view
+
+The SQL view already contained the cleaned, transformed, and enriched data needed for analysis. Using it as the reporting source kept Power BI aligned with the SQL queries used to prepare and check the data.
+
+### Data loaded
+
+| Data | Purpose |
+|---|---|
+| `vw_olist_analysis` | Main analytical table for sales, delivery, product, seller, and customer analysis |
+| Date table | Support monthly and yearly trend analysis |
+| Measures table | Store reusable DAX measures |
+
+<p align="center">
+  <img src="../Images/powerbi/01_data_connection.png" alt="Power BI connection to SQL Server" width="800">
+</p>
+
+**Result:** Power BI was connected to the prepared SQL data, creating one consistent source for reporting.
+
+## 2. Prepare the reporting model
+
+The reporting model was built around `vw_olist_analysis`. Customer, product, seller, order, payment, review, and delivery information were already available as columns in this prepared SQL view.
+
+### Tables in the model
+
+| Table | Purpose |
+|---|---|
+| `vw_olist_analysis` | Main analytical table containing order, customer, product, seller, payment, review, and delivery information |
+| Date table | Support monthly and yearly trend analysis |
+| Measures table | Store reusable DAX measures |
+| Customer satisfaction table | Support customer-satisfaction analysis and reporting |
+
+### Modelling decisions
+
+- Used `vw_olist_analysis` as the main analytical table.
+- Created a date table for monthly and yearly analysis.
+- Created a separate measures table to organise reusable DAX calculations.
+- Created a customer-satisfaction table from the main analytical table.
+- Hid technical fields that were not needed in the report view.
+- Used explicit DAX measures for the main business metrics.
+
+<p align="center">
+  <img src="../Images/powerbi/02_data_model.png" alt="Power BI data model" width="850">
+</p>
+
+**Result:** The reporting model organised the prepared data for filtering, trend analysis, and dashboard development.
+
+## 3. Develop DAX measures
+
+I created reusable DAX measures so that key metrics were calculated consistently across all visuals.
+
+### Revenue calculation issue
+
+The analytical view contains item-level rows. One order can appear multiple times because it contains multiple items.
+
+In this dataset, `payment_value` represents the full payment value for the order and is repeated across the item rows for that order. Therefore, revenue cannot be calculated by directly summing `payment_value` across the analytical view.
+
+Revenue was calculated once per distinct delivered order.
+
+### Total Revenue measure
+
+```dax
+Total Revenue = 
+CALCULATE(
+    SUMX(
+        VALUES(vw_olist_analysis[order_id]),
+        CALCULATE(MAX(vw_olist_analysis[payment_value]))
+    ),
+    vw_olist_analysis[order_status] = "delivered"
+)
+```
+
+### How the measure works
+
+- `VALUES(order_id)` returns each delivered order once.
+- `MAX(payment_value)` returns the order’s full payment value once.
+- `SUMX` sums the order-level payment values.
+- The outer `CALCULATE` restricts the calculation to delivered orders.
+
+This prevents the same order payment from being counted once for every item in the order.
+
+### Revenue assumption
+
+This calculation assumes that `payment_value` is the same across all rows for the same `order_id` and represents the full order payment value.
+
+### Other key measures
+
+| Measure | Purpose |
+|---|---|
+| Delivered Orders | Count distinct delivered orders |
+| Distinct Customers | Count distinct customers |
+| Customers with Delivered Order | Count customers with at least one delivered order |
+| Overall Repeat-Purchase Rate | Measure customers with more than one delivered order |
+| On-Time Delivery Rate | Measure deliveries made on or before the estimated date |
+| Late Delivery Rate | Measure deliveries made after the estimated date |
+| Average Review Score | Measure average customer rating |
+| Positive Review Share | Measure the share of 4–5 star reviews |
+
+<p align="center">
+  <img src="../Images/powerbi/03_dax_measures.png" alt="Power BI DAX measures" width="800">
+</p>
+
+**Result:** The DAX measures provided consistent calculations for revenue, orders, customers, delivery, reviews, and repeat purchasing.
+
+## 4. Design the analytical dashboards
+
+I designed four report pages around business questions rather than simply displaying available fields.
+
+| Dashboard | Business question | What it shows |
+|---|---|---|
+| Overview | How is the business performing overall? | Headline revenue, order, customer, delivery, review, and repeat-purchase KPIs |
+| Sales Performance | How are revenue, orders, and customers changing, and where are they concentrated? | Monthly trends, state-level revenue, and customer growth |
+| Delivery Performance | How reliable is delivery, and where are delays concentrated? | On-time rate, late-delivery rate, delivery delay, and state comparison |
+| Customer Satisfaction & Repeat Purchasing | How satisfied are customers, and how often do they purchase again? | Review scores, positive-review share, and repeat-purchase measures |
+
+### Dashboard design decisions
+
+- Placed headline KPIs at the top of each page.
+- Used trend charts to show performance over time.
+- Used bar and column charts to compare states and categories.
+- Used filters for date, state, product category, and delivery outcome.
+- Used clear, business-friendly visual titles.
+- Added short insight text to explain what each page reveals.
+
+### Overview dashboard
+
+The Overview page summarises the main business results. It highlights revenue growth, the low overall repeat-purchase rate, strong overall delivery performance, and positive customer ratings.
+
+**Main insight:** Revenue grew strongly, but repeat purchasing remained low, highlighting an opportunity for customer re-engagement.
+
+<p align="center">
+  <img src="../Images/01_overview_dashboard.png" alt="Overview dashboard" width="900">
+</p>
+
+### Sales Performance dashboard
+
+The Sales Performance page compares revenue, order volume, and customer growth over time and across states. It shows that São Paulo was the largest revenue market and helps identify periods requiring further review.
+
+**Main insight:** São Paulo contributed 37.42% of analysed revenue, while monthly revenue remained above R$950,000 in every complete month from January to August 2018.
+
+<p align="center">
+  <img src="../Images/02_sales_performance_dashboard.png" alt="Sales performance dashboard" width="900">
+</p>
+
+### Delivery Performance dashboard
+
+The Delivery Performance page compares on-time and late delivery by state. It shows that delivery was strong overall, while identifying states such as Maranhão for further investigation.
+
+**Main insight:** The overall on-time delivery rate was 91.9%, but Maranhão recorded a 19.7% late-delivery rate, more than twice the overall rate.
+
+<p align="center">
+  <img src="../Images/03_delivery_performance_dashboard.png" alt="Delivery performance dashboard" width="900">
+</p>
+
+### Customer Satisfaction & Repeat Purchasing dashboard
+
+The Customer Satisfaction & Repeat Purchasing page examines review scores and repeat purchasing. It separates the overall repeat-purchase rate from the 12-month cohort repeat-purchase rate because they answer different questions and use different populations.
+
+<p align="center">
+  <img src="../Images/04_customer_satisfaction_dashboard.png" alt="Customer satisfaction and repeat purchasing dashboard" width="900">
+</p>
+
+**Result:** The dashboards allow users to move from headline KPIs to more detailed sales, delivery, and customer analysis.
+
+## 5. Cross-check Power BI results
+
+Before finalising the report, I cross-checked key Power BI results with SQL and DAX.
+
+### Overall repeat-purchase rate
+
+**Definition:**  
+The share of customers with at least one delivered order who made more than one delivered order within the observed period.
+
+**SQL and DAX result:**  
+2,801 of 93,358 customers with at least one delivered order made more than one delivered order.
+
+**Overall repeat-purchase rate:** 3.0%
+
+### 12-month cohort repeat-purchase rate
+
+**Definition:**  
+The share of eligible customers who made another delivered purchase within 12 months of their first delivered order. Only customers with a complete 12-month observation window were included.
+
+**SQL and DAX result:**  
+711 of 21,361 eligible customers made another delivered purchase within 12 months.
+
+**12-month cohort repeat-purchase rate:** 3.33%
+
+### Why the two measures are different
+
+These measures answer different questions:
+
+| Measure | Question it answers | Population |
+|---|---|---|
+| Overall repeat-purchase rate | Of all customers with at least one delivered order, how many purchased again within the observed period? | 93,358 customers |
+| 12-month cohort repeat-purchase rate | Of customers with enough time to return within 12 months, how many purchased again within 12 months? | 21,361 eligible customers |
+
+They are not competing calculations of the same metric. The overall rate describes repeat purchasing across the full observed period, while the cohort rate measures repeat purchasing within a fixed 12-month window.
+
+### Result checks
+
+| Metric | SQL result | Power BI result | Status |
+|---|---:|---:|---|
+| Distinct orders | 98,832 | 98,832 | Matched |
+| Delivered orders | 96,478 | 96,478 | Matched |
+| Distinct customers | 95,526 | 95,526 | Matched |
+| Customers with at least one delivered order | 93,358 | 93,358 | Matched |
+| Total revenue | R$15.28M | R$15.28M | Matched |
+| Overall repeat-purchase rate | 3.0% | 3.0% | Matched |
+| São Paulo revenue share | 37.42% | 37.42% | Matched |
+| Revenue growth | 22.4% | 22.4% | Matched |
+
+<p align="center">
+  <img src="../Images/validation/01_sql_powerbi_reconciliation.png" alt="SQL and Power BI result checks" width="850">
+</p>
+
+**Result:** The key Power BI results matched the SQL results, confirming that the report used consistent calculations.
+
+## 6. Use Excel to examine findings
+
+I used Excel to examine and explore the findings, not to validate the DAX or SQL calculations.
+
+Excel helped me review patterns such as:
+
+- Monthly revenue movement.
+- Revenue by customer state.
+- Delivery performance by state.
+- Review-score distribution.
+- Repeat-purchase patterns.
+
+The final validation of key metrics was carried out using SQL queries and DAX measures. SQL provided the source-level check, while DAX confirmed that the Power BI calculations produced the expected results.
+
+<p align="center">
+  <img src="../Images/validation/02_excel_findings_review.png" alt="Excel findings review" width="850">
+</p>
+
+**Result:** Excel supported the review and interpretation of findings, while SQL and DAX were used to validate the key results.
+
+## 7. Review findings and limitations
+
+The Power BI report supported the main findings of the analysis:
+
+- Revenue grew 22.4% in 2018 versus 2017.
+- São Paulo contributed 37.42% of analysed revenue.
+- Overall delivery performance was strong, but late delivery varied by state.
+- Customer ratings were positive overall.
+- The overall repeat-purchase rate was 3.0%, highlighting an opportunity for customer re-engagement.
+- Monthly revenue remained above R$950,000 in every complete month from January to August 2018.
+
+### Limitations
+
+- The report is based on historical data ending in August 2018 and does not represent current Olist performance.
+- Revenue is not profit; margin, acquisition cost, and campaign cost are not available in the dataset.
+- Repeat-purchase measures describe observed purchasing behaviour, not churn.
+- Review scores are available only for orders that received a review.
+- State-level results with small sample sizes should be interpreted carefully.
+- The dashboard does not calculate customer lifetime value because customer margin, acquisition cost, and full customer-lifespan data are not available.
+
 ## Business Recommendation
 | Priority | Recommendation | Suggested first action | Success measure |
 |---|---|---|---|
