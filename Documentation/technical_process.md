@@ -681,6 +681,8 @@ This calculation assumes that `payment_value` is the same across all rows for th
 
 **Result:** The DAX measures provided consistent calculations for revenue, orders, customers, delivery, reviews, and repeat purchasing.
 
+The complete list of key DAX measures used in the Power BI report is documented in [`Documentation/dax_measures.md`](../Documentation/dax_measures.md).
+
 ## 16. Design the analytical dashboards
 
 I designed four report pages around business questions rather than simply displaying available fields.
