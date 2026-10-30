@@ -12,6 +12,21 @@ An end-to-end SQL Server and Power BI analytics project examining Olist’s reve
 **Dataset:** [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 
 ---
+## Table of Contents
+
+- [Business Questions](#business-questions)
+- [Data Scope](#data-scope)
+- [Key Results](#key-results)
+- [Executive Summary](#executive-summary)
+- [Findings](#findings)
+- [SQL Analysis](#sql-analysis)
+- [Power BI Dashboard](#power-bi-dashboard)
+- [DAX Measures](#dax-measures)
+- [Recommendations](#recommendations)
+- [Limitations](#limitations)
+- [Repository Structure](#repository-structure)
+- [How to Reproduce](#how-to-reproduce)
+---
 
 ## Executive Summary
 
