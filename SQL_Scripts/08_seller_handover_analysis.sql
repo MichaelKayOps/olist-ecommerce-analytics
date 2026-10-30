@@ -1,9 +1,9 @@
 /*
-====================================================================
+
 Seller Handover and Customer Delivery Analysis
 Project: Olist E-Commerce Analytics
 Database: Olist_Ecommerce_data
-====================================================================
+
 
 Purpose:
 This script examines whether late seller handover to the courier is
@@ -26,17 +26,14 @@ Business rules:
 - A late seller handover occurs when the carrier-delivery date is
   later than the shipping-limit date.
 - A late customer delivery occurs when the customer-delivery date is
-  later than the estimated-delivery date.
-====================================================================
+  later than the estimated-delivery date
 */
 
 USE Olist_Ecommerce_data;
 GO
 
 /*
---------------------------------------------------------------------
 1. Seller handover and customer delivery outcome
---------------------------------------------------------------------
 This query classifies each delivered order by seller handover timing
 and final customer-delivery outcome.
 */
@@ -79,12 +76,13 @@ GROUP BY
 ORDER BY
     seller_handover_status,
     customer_delivery_status;
+
 GO
 
+
 /*
---------------------------------------------------------------------
 2. Late-delivery rate by seller handover status
---------------------------------------------------------------------
+  
 This query calculates the customer late-delivery rate for orders with
 late and on-time seller handover.
 */
@@ -130,10 +128,10 @@ ORDER BY
     seller_handover_status;
 GO
 
+  
 /*
---------------------------------------------------------------------
 3. Share of late customer deliveries caused by late seller handover
---------------------------------------------------------------------
+  
 This query shows how many late customer deliveries followed a late
 seller handover and how many occurred despite an on-time handover.
 */
