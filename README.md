@@ -119,6 +119,16 @@ The August result reflected slightly fewer delivered orders and a lower average 
 
 **Business implication:** Track monthly revenue alongside order volume and average order value. If the lower level continues, investigate product mix, pricing, demand, and state-level performance.
 
+### Finding 6: Late seller handover increases delivery risk but is not the main cause of late customer delivery
+
+Among 96,473 delivered orders with complete delivery dates, 6,533 arrived after the estimated customer-delivery date.
+
+Orders handed to the courier after the seller’s shipping-limit date had a 26.19% late-delivery rate, compared with 5.58% for orders handed over on time. This means late seller handover was associated with an approximately 4.7 times higher risk of late customer delivery.
+
+However, late seller handover accounted for only 22.35% of all late customer deliveries. Most late deliveries,77.65%, occurred after an on-time seller handover.
+
+**Business implication:** Improve seller handover discipline, but investigate courier transit, destination, and delivery estimates as the larger contributors to overall late delivery.
+
 ---
 
 ## 4. Power BI Dashboard
