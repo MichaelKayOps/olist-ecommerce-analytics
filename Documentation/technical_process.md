@@ -366,6 +366,12 @@ FROM Olist_Ecommerce_data.dbo.vw_olist_analysis;
 **Note:**  
 The 611 `unavailable` records were excluded in the final view, so they are not included in these counts.
 
+**Date coverage:** Orders were placed from 15 September 2016 to 17 October 2018. The latest completed delivered order was placed on 29 August 2018, so August 2018 is treated as the last complete month for trend analysis.
+
+<p align="center">
+  <img src="../Images/sql/16_order_period_check_result.png" alt="Order period check result" width="700">
+</p>
+
 ## 9. Repeat-purchase analysis
 
 I measured repeat purchasing using delivered orders and `customer_unique_id`.
