@@ -14,18 +14,23 @@ An end-to-end SQL Server and Power BI analytics project examining Olist’s reve
 ---
 ## Table of Contents
 
-- [Business Questions](#business-questions)
-- [Data Scope](#data-scope)
-- [Key Results](#key-results)
 - [Executive Summary](#executive-summary)
-- [Findings](#findings)
-- [SQL Analysis](#sql-analysis)
-- [Power BI Dashboard](#power-bi-dashboard)
-- [DAX Measures](#dax-measures)
-- [Recommendations](#recommendations)
-- [Limitations](#limitations)
-- [Repository Structure](#repository-structure)
-- [How to Reproduce](#how-to-reproduce)
+- [Business Problem](#1-business-problem)
+- [Project at a Glance](#2-project-at-a-glance)
+- [Key Findings](#3-key-findings)
+- [Power BI Dashboard](#4-power-bi-dashboard)
+- [Technical Approach](#5-technical-approach)
+  - [Data Collection and Understanding](#data-collection-and-understanding)
+  - [Data Preparation and Validation](#data-preparation-and-validation)
+  - [SQL Analysis](#sql-analysis)
+  - [Power BI and DAX](#power-bi-and-dax)
+  - [Interpretation and Recommendations](#interpretation-and-recommendations)
+- [Recommendations](#6-recommendations)
+- [Limitations](#7-limitations)
+- [Repository Structure](#8-repository-structure)
+- [Dataset and Acknowledgements](#9-dataset-and-acknowledgements)
+- [What This Project Demonstrates](#10-what-this-project-demonstrates)
+- [How to Reproduce](#11-how-to-reproduce)
 ---
 
 ## Executive Summary
