@@ -855,8 +855,7 @@ These actions should be tested rather than assumed to work. Their impact should 
 
 ## 20. Limitations and next steps
 
-- The report is based on historical data ending in August 2018 and does not represent current Olist performance.
-- Revenue is not profit; margin, acquisition cost, and campaign cost are not available in the dataset.
+- The report uses historical data with orders placed from 15 September 2016 to 17 October 2018. The last delivered order occurred on 29 August 2018, so August 2018 is the last complete month for delivered-order analysis. The data does not represent current Olist performance.
 - Repeat-purchase measures describe observed purchasing behaviour, not churn.
 - Review scores are available only for orders that received a review.
 - State-level results with small sample sizes should be interpreted carefully.
