@@ -797,21 +797,21 @@ They are not competing calculations of the same metric. The overall rate describ
 
 Looking across the full analysis, the data tells one connected story about Olist’s operational health.
 
-Olist grew strongly through customer acquisition. Revenue increased by 22.4% in 2018, supported by 21.6% customer growth. São Paulo was central to this growth: it contributed 37.42% of analysed revenue and accounted for 59.7% of sellers.
+Olist grew strongly through customer acquisition. Revenue increased by **22.4%** in 2018, supported by **21.6%** customer growth. São Paulo was central to this growth: it contributed **37.42%** of analysed revenue and accounted for **59.7%** of sellers.
 
-However, growth was mainly acquisition-led. Only 3.0% of the 93,358 customers with at least one delivered order made another delivered purchase within the observed period. In the separate 12-month cohort analysis, 3.33% of eligible customers purchased again within 12 months.
+However, growth was mainly acquisition-led. Only **3.0%** of the **93,358** customers with at least one delivered order made another delivered purchase within the observed period. In the separate 12-month cohort analysis, **3.33%** of eligible customers purchased again within 12 months.
 
 This does not mean customers had churned. Olist is not a subscription platform, so there is no cancellation event that proves a customer has left. Instead, the low repeat-purchase rate shows that many customers with completed purchases did not make another purchase within the observed period. That creates a clear opportunity for customer re-engagement.
 
-Customer experience was generally positive. The average review score was 4.10/5, and 77.3% of reviews were positive. Delivery performance was also strong overall, with 91.9% of orders delivered on time. This suggests that dissatisfaction or delivery failure alone is unlikely to be the main explanation for the low repeat-purchase rate.
+Customer experience was generally positive. The average review score was **4.10/5**, and **77.3%** of reviews were positive. Delivery performance was also strong overall, with **91.9%** of orders delivered on time. This suggests that dissatisfaction or delivery failure alone is unlikely to be the main explanation for the low repeat-purchase rate.
 
-However, performance was not uniform across Brazil. Maranhão recorded a 19.7% late-delivery rate, more than twice the overall rate, and had a lower average review score. Seller coverage was also uneven: four customer states had no sellers based in them. These patterns suggest that regional delivery reliability, seller coverage, and product availability may affect the customer experience in some states.
+However, performance was not uniform across Brazil. Maranhão recorded a **19.7%** late-delivery rate, more than twice the overall rate, and had a lower average review score. Seller coverage was also uneven: **four** customer states had no sellers based in them. These patterns suggest that regional delivery reliability, seller coverage, and product availability may affect the customer experience in some states.
 
-The seller-handover analysis adds an important operational layer. Orders handed to the courier after the seller’s shipping-limit date had a 26.19% late-delivery rate, compared with 5.58% for orders handed over on time. This means late seller handover substantially increased the risk of a late customer delivery.
+The seller-handover analysis adds an important operational layer. Orders handed to the courier after the seller’s shipping-limit date had a **26.19%** late-delivery rate, compared with **5.58%** for orders handed over on time. This means late seller handover substantially increased the risk of a late customer delivery.
 
-However, late seller handover accounted for only 22.35% of all late customer deliveries. Most late deliveries occurred even when the seller handed the order to the courier on time. This tells me that seller dispatch discipline matters, but courier transit performance, destination, delivery distance, and delivery-estimate accuracy are likely to explain more of the overall late-delivery volume.
+However, late seller handover accounted for only **22.35%** of all late customer deliveries. Most late deliveries occurred even when the seller handed the order to the courier on time. This tells me that seller dispatch discipline matters, but courier transit performance, destination, delivery distance, and delivery-estimate accuracy are likely to explain more of the overall late-delivery volume.
 
-Monthly revenue remained above R$950,000 in every complete month from January to August 2018. Revenue peaked in May and eased by August, but this should be monitored rather than treated as evidence of a sustained decline because the dataset ends in August 2018.
+Monthly revenue remained above **R$950,000** in every complete month from January to August 2018. Revenue peaked in May and eased by August, but this should be monitored rather than treated as evidence of a sustained decline because the dataset ends in August 2018.
 
 Overall, the data points to three connected priorities:
 
