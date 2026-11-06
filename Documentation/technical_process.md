@@ -93,12 +93,11 @@ WHERE OD.customer_id IS NULL
 **Result:**  
 This query identified records with incomplete order, customer, or review relationships. It does not isolate only orphaned review records: orders without a review are also returned because the review fields are null after the join.
 
-Orders without reviews were retained for sales, delivery, and repeat-purchase analysis. They were excluded only from review-based metrics.
+Orders without reviews were retained for sales, delivery, and repeat-purchase analysis. And also, to examine any pattern to why a proportion of orders had got no review.
 
 ## 3. Define the information required
 
 I identified the information needed for the main areas of analysis.
-
 | Analysis area | Information required |
 |---|---|
 | Sales | Order date, order status, customer state, product category, price, payment value, seller state |
@@ -126,7 +125,7 @@ The source tables have different levels of detail:
 
 Joining these tables can create repeated order, payment, and review values at item level. `SELECT DISTINCT` removes fully identical rows, but it does not solve every duplication issue caused by different table grains.
 
-For that reason, the joined query was used to prepare the analytical dataset—not to calculate revenue. Revenue was calculated separately at order grain.
+For that reason, the joined query was used to prepare the analytical dataset, not to calculate revenue. Revenue was calculated separately at order grain.
 
 ### Join design
 
@@ -524,7 +523,7 @@ Among the 96,473 delivered orders with complete delivery dates, 6,533 arrived af
 
 Orders handed to the courier after the seller’s shipping-limit date had a 26.19% late-delivery rate. Orders handed over on time had a 5.58% late-delivery rate. This means an order with a late seller handover was approximately 4.7 times more likely to arrive late than an order handed over on time.
 
-However, late seller handover accounted for only 1,460 of the 6,533 late customer deliveries, or 22.35%. The remaining 5,073 late deliveries—77.65%—occurred even though the seller handed the order to the courier on time.
+However, late seller handover accounted for only 1,460 of the 6,533 late customer deliveries, or 22.35%. The remaining 5,073 late deliveries, 77.65%, occurred even though the seller handed the order to the courier on time.
 
 ### Interpretation
 
