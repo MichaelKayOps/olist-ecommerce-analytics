@@ -1,7 +1,7 @@
 # Olist E-Commerce Analytics
 ### Sales Performance, Delivery Reliability, & Repeat Purchasing
 
-An end-to-end SQL Server and Power BI analytics project examining Olist’s revenue performance, customer acquisition, delivery reliability, seller handover discipline, customer satisfaction, and repeat purchasing.
+An end-to-end SQL Server and Power BI analytics project examining Olist’s revenue performance, customer acquisition, delivery reliability, customer satisfaction, and repeat purchasing.
 
 **Key result:** Revenue grew 22.4% in 2018 versus 2017, but only 3.0% of the 93,358 customers with at least one delivered order made another delivered purchase. Delivery performance was strong overall at 91.9% on time, while late seller handover increased the likelihood of a late customer delivery approximately 4.7 times.
 
