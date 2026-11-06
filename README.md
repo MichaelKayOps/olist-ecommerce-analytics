@@ -35,21 +35,25 @@ An end-to-end SQL Server and Power BI analytics project examining Olist’s reve
 
 ## Executive Summary
 
-**Business question:**  
-Is Olist’s revenue growth supported by reliable delivery operations, positive customer experience, and repeat purchasing?
+**Business question:** Is Olist growing through repeat customers, or does its growth depend mainly on acquiring new ones? And what can be done to improve customer retention and delivery performance?
 
-**Headline finding:**  
-Olist grew strongly through customer acquisition. Revenue increased by 22.4% in 2018, supported by 21.6% customer growth. However, repeat purchasing remained low: only 3.0% of customers with at least one delivered order made another delivered purchase within the observed period.
+Olist's revenue grew by **22.4% in 2018 compared with 2017**, while its customer base grew by **21.6%**. These figures show strong growth, but looking beyond revenue and customer numbers revealed a problem: not enough customers were coming back to buy again.
 
-Delivery performance was strong overall, with 91.9% of delivered orders arriving on or before the estimated delivery date. Customer sentiment was also positive, with an average review score of 4.10/5 and 77.3% of reviews rated four or five stars.
+Of the **93,358 customers with at least one delivered order, only 3.0% made another delivered purchase** within the observed period. This suggests that Olist was doing well at attracting customers but struggling to turn first-time buyers into returning customers. Its growth therefore appears to depend more on acquiring new customers than retaining existing ones.
 
-The seller-handover analysis showed that orders handed to the courier after the seller’s shipping-limit date had a 26.19% late-delivery rate, compared with 5.58% for orders handed over on time. However, late seller handover accounted for only 22.35% of all late customer deliveries, indicating that courier transit, destination, and delivery-estimate accuracy also require investigation.
+I looked at customer satisfaction to see whether poor experiences could explain this pattern. However, the results told a different story. The average review score was **4.10 out of 5**, and **77.3% of reviews were rated four or five stars**. Repeat-purchase rates also remained low across the different rating groups. This suggests that low satisfaction alone does not explain why so few customers returned.
 
-**Recommendation:**  
-Prioritise customer re-engagement to convert first-time buyers into returning customers. In parallel, investigate regional delivery bottlenecks, beginning with Maranhão, and monitor seller handover discipline alongside courier transit performance.
+Delivery performance showed a similar picture. Overall, **91.9% of delivered orders arrived on or before their estimated delivery dates**. However, seller handover delays were a clear concern. Orders handed to couriers after the seller's shipping-limit date had a **26.19% late-delivery rate**, compared with **5.58%** for orders handed over on time. Even so, late seller handovers accounted for only **22.35% of all late deliveries**. This means seller delays matter, but most late deliveries happened for other reasons. Courier transit, delivery locations and the accuracy of delivery estimates also need attention.
 
 ![Olist E-commerce Analytics Overview Dashboard](Images/01_overview_dashboard.png)
 
+### Business Implications and Recommendations
+
+The biggest opportunity is to get more customers to return after their first purchase. Olist could introduce a post-purchase re-engagement programme using relevant product recommendations, cross-selling, reorder reminders and targeted incentives based on previous purchases. These activities should first be tested against a control group to see which ones actually increase repeat purchases and revenue.
+
+There is also room to improve delivery reliability. Olist should work on getting sellers to hand over orders on time while investigating courier and location-level delivery delays, starting with states such as Maranhão.
+
+Ultimately, Olist needs to do more than keep attracting new customers. It needs to give more of them a reason to come back, while making sure their orders arrive as expected.
 ---
 
 ## 1. Business Problem
