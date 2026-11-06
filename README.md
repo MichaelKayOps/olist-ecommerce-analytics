@@ -1,5 +1,5 @@
 # Olist E-Commerce Analytics
-### Sales Performance, Delivery Reliability, Seller Handover & Repeat Purchasing
+### Sales Performance, Delivery Reliability, & Repeat Purchasing
 
 An end-to-end SQL Server and Power BI analytics project examining Olist’s revenue performance, customer acquisition, delivery reliability, seller handover discipline, customer satisfaction, and repeat purchasing.
 
