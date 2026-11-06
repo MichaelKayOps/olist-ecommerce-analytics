@@ -53,7 +53,6 @@ The biggest opportunity is to get more customers to return after their first pur
 
 There is also room to improve delivery reliability. Olist should work on getting sellers to hand over orders on time while investigating courier and location-level delivery delays, starting with states such as Maranhão.
 
-Ultimately, Olist needs to do more than keep attracting new customers. It needs to give more of them a reason to come back, while making sure their orders arrive as expected.
 ---
 
 ## 1. Business Problem
