@@ -35,7 +35,7 @@ An end-to-end SQL Server and Power BI analytics project examining Olist’s reve
 
 ## Executive Summary
 
-**Business question:** Is Olist growing through repeat customers, or does its growth depend mainly on acquiring new ones? And what can be done to improve customer retention and delivery performance?
+**Business question:** Is Olist converting its growing customer base into repeat purchases, and what factors may be limiting customers from buying again?
 
 Olist's revenue grew by **22.4% in 2018 compared with 2017**, while its customer base grew by **21.6%**. These figures show strong growth, but looking beyond revenue and customer numbers revealed a problem: not enough customers were coming back to buy again.
 
