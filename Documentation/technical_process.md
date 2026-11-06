@@ -1,6 +1,6 @@
 # Technical Process
 
-This document explains how I prepared, validated, and analysed the Olist e-commerce dataset using SQL Server, then built and checked the Power BI report.
+This document explains how I prepared, validated, and analysed the Olist e-commerce dataset using SQL Server, then built a visualisation report using Power BI.
 
 The workflow moved from raw CSV files to a validated analytical view, then to Power BI dashboards, business findings, and recommendations.
 
